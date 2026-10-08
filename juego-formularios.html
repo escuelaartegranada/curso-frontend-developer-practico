@@ -339,6 +339,7 @@ pre.code{border:1px solid var(--line)}
 .diploma{background:var(--card)}
 .diploma h2{font-family:var(--px);font-size:1rem;line-height:1.6}
 @media print{body{background:#fff}body::before{display:none}.diploma,.diploma *{color:#000!important;background:#fff!important;text-shadow:none!important}}
+.ansrow{border-top:1px solid var(--line);padding:10px 0}.ansrow .st{font-size:.8rem;font-weight:700;margin-top:2px}.ansrow .st.ok{color:var(--ok)}.ansrow .st.ko{color:var(--ko)}.ansrow pre{margin:6px 0 0;white-space:pre-wrap;word-break:break-word;background:var(--code-bg);border:1px solid var(--line);padding:8px 10px;border-radius:5px;max-height:160px;overflow:auto;font-size:.8rem}
 </style>
 </head>
 <body>
@@ -347,6 +348,7 @@ pre.code{border:1px solid var(--line)}
   <span class="pill" id="xp">Puntos: 0</span>
   <span class="pill streak" id="streak" hidden>Combo x0</span>
   <button class="btn small" id="snd" aria-label="Sonido">Sonido: sí</button>
+  <button class="btn small" id="goAns">Mis respuestas</button>
   <button class="btn small" id="goCheat">Chuleta</button>
   <button class="btn small" id="goHome2">Inicio</button>
 </div></header>
@@ -799,8 +801,8 @@ const CHEAT=[
 
 /* ============ estado ============ */
 const KEY='formquest-v1';
-let save={best:{},name:''};
-try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.best)save=s}catch(e){}
+let save={best:{},name:'',ans:{},pos:null,lab:''};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.best)save=Object.assign(save,s)}catch(e){}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}}
 const qCount=L=>L.steps.filter(s=>s.t!=='learn').length;
 const levelMax=L=>10*qCount(L);
@@ -822,7 +824,7 @@ function renderHome(){
     el('p',{},'Antes de hacer la práctica de la agencia de viajes, repasa las etiquetas y atributos de los formularios. Cada nivel tiene una explicación corta y varios ejercicios: emparejar, completar código, ordenar líneas y encontrar errores.'),
     el('div',{class:'name'},
       el('input',{id:'nm',placeholder:'Tu nombre (para el diploma)',value:save.name||'','aria-label':'Tu nombre',oninput:e=>{save.name=e.target.value;persist()}}),
-      el('button',{class:'btn primary',onclick:()=>{const next=LEVELS.findIndex(L=>!(save.best[L.id]>0));startLevel(next<0?0:next)}},done?'Continuar partida':'Empezar partida'))
+      el('button',{class:'btn primary',onclick:()=>{const q=save.pos;if(q&&LEVELS[q.l]&&q.i<LEVELS[q.l].steps.length){cur={l:q.l,i:q.i,pts:q.pts};renderStep();return}const next=LEVELS.findIndex(L=>!(save.best[L.id]>0));startLevel(next<0?0:next)}},(done||save.pos)?'Continuar partida':'Empezar partida'))
   );
   const grid=el('div',{class:'grid'});
   LEVELS.forEach((L,i)=>{
@@ -838,7 +840,7 @@ function renderHome(){
   });
   const extra=el('div',{class:'row',style:'margin-top:20px'},
     el('button',{class:'btn',onclick:renderCheat},'Abrir la chuleta de etiquetas'),
-    el('button',{class:'btn',onclick:()=>{if(confirm('¿Borrar todo tu progreso?')){save.best={};persist();renderHome()}}},'Borrar mi progreso'));
+    el('button',{class:'btn',onclick:()=>{if(confirm('¿Borrar todo tu progreso?')){save={best:{},name:save.name,ans:{},pos:null,lab:''};persist();renderHome()}}},'Borrar mi progreso'));
   const wrap=el('div',{},hero,routeMap(),grid,extra);
   if(done===LEVELS.length) wrap.append(diploma());
   view(wrap);
@@ -873,6 +875,29 @@ function diploma(){
     el('button',{class:'btn primary',onclick:()=>window.print()},'Imprimir diploma'));
 }
 
+function renderAnswers(){
+  const wrap=el('div',{},el('h1',{style:'font-size:1.4rem'},'Mis respuestas'),el('p',{class:'muted'},'Tus respuestas se guardan en este navegador (localStorage), así que siguen aquí aunque cierres la página.'));
+  let any=false;
+  LEVELS.forEach((L,li)=>{
+    const rows=L.steps.map((s,i)=>[s,i,save.ans[L.id+':'+i]]).filter(r=>r[2]);
+    if(!rows.length)return;any=true;
+    const card=el('div',{class:'card',style:'margin-top:14px'},el('h2',{},`Nivel ${li+1} · ${L.title}`));
+    rows.forEach(([s,i,a])=>{
+      const st=a.ok?(a.att<=1?'Acertada a la primera':'Acertada en el intento '+a.att):'No acertada (se mostró la solución)';
+      card.append(el('div',{class:'ansrow'},
+        el('div',{html:md(s.q||s.title||'')}),
+        el('div',{class:'st '+(a.ok?'ok':'ko')},st+' · '+a.pts+' pts'),
+        a.last?el('pre',{},a.last):null,
+        a.prev&&a.prev.length?el('div',{class:'muted',style:'font-size:.85rem;margin-top:4px'},'Intentos anteriores: '+a.prev.join(' → ').slice(0,300)):null));
+    });
+    wrap.append(card);
+  });
+  if(!any)wrap.append(el('div',{class:'card',style:'margin-top:14px'},'Todavía no has respondido nada. Empieza un nivel y aquí aparecerán tus respuestas.'));
+  wrap.append(el('div',{class:'row',style:'margin-top:18px'},
+    el('button',{class:'btn primary',onclick:renderHome},'Volver al inicio'),
+    any?el('button',{class:'btn',onclick:()=>{if(confirm('¿Borrar todas tus respuestas guardadas?')){save.ans={};save.lab='';persist();renderAnswers()}}},'Borrar respuestas'):null));
+  view(wrap);
+}
 function renderCheat(){
   const wrap=el('div',{},el('h1',{},'Chuleta de formularios'),el('p',{class:'muted'},'Tenla a mano mientras haces la práctica.'));
   const g=el('div',{class:'cheat'});
@@ -891,6 +916,8 @@ function renderStep(){
   const L=LEVELS[cur.l],s=L.steps[cur.i];
   const pct=Math.round(cur.i/L.steps.length*100);
   const card=el('section',{class:'card'});
+  const tries=[];
+  save.pos={l:cur.l,i:cur.i,pts:cur.pts};persist();
   const body=el('div'),foot=el('div',{class:'foot'}),fbBox=el('div'),extra=el('span',{class:'row'}),prim=el('span'),mas=makeMascot();
   foot.append(mas.el,el('span',{class:'row',style:'margin-left:auto'},extra,prim));
   card.append(
@@ -898,6 +925,7 @@ function renderStep(){
     el('div',{class:'prog'},el('i',{style:`width:${pct}%`})),
     body,fbBox,foot);
   const api={
+    note(r){tries.push(String(r))},
     body,
     setBtn(label,fn,disabled){
       prim.innerHTML='';
@@ -918,6 +946,7 @@ function renderStep(){
     complete(attempts,revealed,custom){
       const p=revealed?0:(custom!=null?custom:(attempts<=1?10:attempts===2?6:3));
       cur.pts+=p;
+      save.ans[L.id+':'+cur.i]={last:tries[tries.length-1]||'',prev:tries.slice(0,-1),ok:!revealed,att:attempts,pts:p,t:Date.now()};save.pos={l:cur.l,i:cur.i+1,pts:cur.pts};persist();
       if(!revealed&&attempts<=1)setStreak(streak+1);else if(revealed)setStreak(0);
       const r=fbBox.getBoundingClientRect(),cx=r.left+Math.min(r.width,400)/2,cy=Math.max(80,Math.min(r.top,innerHeight-60));
       if(p>0)floatText(cx-20,cy,'+'+p);
@@ -937,7 +966,7 @@ const KIND={quiz:'Pregunta',match:'Emparejar',sort:'Clasificar',fill:'Completa e
 
 function finishLevel(){
   const L=LEVELS[cur.l],max=levelMax(L),st=starsFor(cur.pts,max);
-  save.best[L.id]=Math.max(save.best[L.id]||0,cur.pts);persist();updXP();
+  save.best[L.id]=Math.max(save.best[L.id]||0,cur.pts);save.pos=null;persist();updXP();
   SFX.win();
   const msg=st===3?'Muy bien, tienes este tema dominado.':st===2?'Bien. Repasa los fallos si quieres las 3 estrellas.':'Has avanzado, pero conviene repetir el nivel.';
   const allDone=LEVELS.every(l=>save.best[l.id]>0);
@@ -998,7 +1027,7 @@ R.quiz=(s,api)=>{
     btns[oi]=btn;box.append(btn);
   });
   const check=api.setBtn('Comprobar',()=>{
-    attempts++;
+    attempts++;api.note([...sel].map(x=>s.options[x]).join(' / '));
     const ok=sel.size===ans.size&&[...sel].every(x=>ans.has(x));
     if(ok){
       finished=true;
@@ -1038,7 +1067,7 @@ R.match=(s,api)=>{
         SFX.tap();lb[i].classList.remove('sel');lb[i].classList.add('ok');r.classList.add('ok');selL=null;done++;
         if(done===s.pairs.length){
           api.fb('ok','<strong>Todas las parejas correctas.</strong>'+(mistakes?` (${mistakes} fallo${mistakes>1?'s':''})`:''));
-          api.complete(mistakes===0?1:mistakes<=2?2:3,false);
+          api.note(mistakes?mistakes+' fallo(s) al emparejar/clasificar':'Sin fallos');api.complete(mistakes===0?1:mistakes<=2?2:3,false);
         }
       }else{
         mistakes++;api.oops();r.classList.add('ko');lb[selL].classList.add('ko');
@@ -1061,7 +1090,7 @@ R.sort=(s,api)=>{
         row.append(el('strong',{style:'grid-column:1/-1;color:var(--ok)'},'Correcto: '+s.cats[cat]));
         if(++done===s.items.length){
           api.fb('ok','<strong>Todo clasificado.</strong>'+(mistakes?` (${mistakes} fallo${mistakes>1?'s':''})`:''));
-          api.complete(mistakes===0?1:mistakes<=2?2:3,false);
+          api.note(mistakes?mistakes+' fallo(s) al emparejar/clasificar':'Sin fallos');api.complete(mistakes===0?1:mistakes<=2?2:3,false);
         }
       }else{mistakes++;api.oops();row.classList.remove('ko');void row.offsetWidth;row.classList.add('ko')}
     }},c)));
@@ -1083,7 +1112,7 @@ R.fill=(s,api)=>{
   });
   api.addBtn('Pista',()=>{hinted=true;Object.entries(inputs).forEach(([n,a])=>a.forEach(i=>i.placeholder=s.answers[n][0][0]+'…'));api.fb('info','Cada hueco empieza por la letra que ves en gris.')});
   const btn=api.setBtn('Comprobar',()=>{
-    attempts++;let all=true;
+    attempts++;api.note(Object.values(inputs).map(a=>a[0].value.trim()).join(', '));let all=true;
     Object.entries(inputs).forEach(([n,a])=>{
       const ok=s.answers[n].includes(a[0].value.trim().toLowerCase());
       a.forEach(i=>{i.classList.remove('ok','ko');void i.offsetWidth;i.classList.add(ok?'ok':'ko')});
@@ -1116,7 +1145,7 @@ R.order=(s,api)=>{
     btn.disabled=pool.length>0||finished;
   };
   const btn=api.setBtn('Comprobar',()=>{
-    attempts++;
+    attempts++;api.note(placed.map(i=>s.lines[i].trim()).join('  |  '));
     const ok=placed.every((v,i)=>v===i);
     if(ok){finished=true;draw(true);api.fb('ok','<strong>Orden correcto.</strong> Fíjate en cómo cada etiqueta de apertura tiene su cierre y cómo se anidan.');api.complete(attempts,false)}
     else if(attempts>=3){finished=true;placed=s.lines.map((_,i)=>i);pool=[];draw(true);api.fb('ko','Esta es la solución correcta. Estúdiala con calma.');api.complete(attempts,true)}
@@ -1138,7 +1167,7 @@ R.bugs=(s,api)=>{
   });
   const explain=()=>'<ul>'+lines.map((l,i)=>l.bug?`<li><strong>Línea ${i+1}:</strong> ${md(l.bug)}</li>`:'').join('')+'</ul>';
   const btn=api.setBtn('Comprobar',()=>{
-    attempts++;
+    attempts++;api.note('Líneas marcadas: '+([...sel].map(i=>i+1).sort((a,b)=>a-b).join(', ')||'ninguna'));
     const hits=lines.filter((l,i)=>l.bug&&sel.has(i)).length,wrong=[...sel].filter(i=>!lines[i].bug).length;
     if(hits===total&&wrong===0){
       finished=true;rows.forEach((r,i)=>{r.classList.remove('sel');if(lines[i].bug)r.classList.add('ok')});
@@ -1209,9 +1238,9 @@ const LAB_SOLUTION=`<form action="reservar.php" method="post">
 
 R.lab=(s,api)=>{
   const b=api.body;b.append(el('h2',{html:md(s.q)}));
-  const ta=el('textarea',{class:'ed',spellcheck:'false','aria-label':'Editor de código'});ta.value=LAB_START;
+  const ta=el('textarea',{class:'ed',spellcheck:'false','aria-label':'Editor de código'});ta.value=save.lab||LAB_START;
   const pv=el('iframe',{class:'pv',sandbox:'',title:'Vista previa'});
-  const upd=()=>{pv.srcdoc=`<!doctype html><meta charset="utf-8"><body style="font-family:'Times New Roman',serif;padding:10px">${ta.value}`};
+  const upd=()=>{save.lab=ta.value;persist();pv.srcdoc=`<!doctype html><meta charset="utf-8"><body style="font-family:'Times New Roman',serif;padding:10px">${ta.value}`};
   let t;ta.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(upd,250)});
   ta.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const p=ta.selectionStart;ta.setRangeText('  ',p,ta.selectionEnd,'end')}});
   b.append(el('div',{class:'lab'},ta,pv));
@@ -1219,7 +1248,7 @@ R.lab=(s,api)=>{
   const items=LAB_CHECKS.map(([txt])=>{const li=el('li',{},el('span',{},'○'),el('span',{html:md(txt)}));list.append(li);return li});
   let best=0,extraAdded=false;
   api.addBtn('Ver una solución de ejemplo',()=>{if(confirm('Esto reemplazará tu código por un ejemplo. ¿Seguro?')){ta.value=LAB_SOLUTION;upd()}});
-  const finish=()=>api.complete(1,false,Math.round(10*best/LAB_CHECKS.length));
+  const finish=()=>{api.note(ta.value);api.complete(1,false,Math.round(10*best/LAB_CHECKS.length))};
   api.setBtn('Comprobar',()=>{
     const d=new DOMParser().parseFromString(ta.value,'text/html');
     let n=0;
@@ -1236,6 +1265,7 @@ R.lab=(s,api)=>{
 /* ============ arranque ============ */
 $('#goHome').onclick=$('#goHome2').onclick=renderHome;
 $('#goCheat').onclick=renderCheat;
+$('#goAns').onclick=renderAnswers;
 const sb=$('#snd');sb.textContent=snd?'Sonido: sí':'Sonido: no';
 sb.onclick=()=>{snd=!snd;sb.textContent=snd?'Sonido: sí':'Sonido: no';try{localStorage.setItem('fq-snd',snd?'1':'0')}catch(e){};SFX.tap()};
 renderHome();
