@@ -170,7 +170,6 @@ iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand)
 @media (max-width:700px){.hero-art{opacity:.3;width:85%}}
 .hero-art .bal{animation:bob 5s ease-in-out infinite}
 .hero-art .sun{animation:sunp 3s ease-in-out infinite;transform-origin:330px 62px}
-.hero-art .pl{animation:plfly 9s linear infinite}
 @keyframes bob{50%{transform:translateY(-12px)}}
 @keyframes sunp{50%{transform:scale(1.12)}}
 @keyframes plfly{from{transform:translate(-50px,120px)}to{transform:translate(460px,30px)}}
@@ -186,15 +185,14 @@ iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand)
 .route-scroll{overflow-x:auto;padding:6px 0 0;margin-top:18px}
 .route{position:relative;height:116px;min-width:640px;margin:0 34px}
 .route .rl{position:absolute;left:0;right:0;top:56px;border-top:5px dashed var(--line)}
-.route .rf{position:absolute;left:0;top:56px;height:5px;background:linear-gradient(90deg,var(--ok),var(--brand));border-radius:9px;transition:width 1.6s cubic-bezier(.5,0,.2,1);width:0}
+.route .rf{position:absolute;left:0;top:56px;height:5px;background:linear-gradient(90deg,var(--ok),var(--brand));border-radius:9px}
 .stop{position:absolute;top:34px;transform:translateX(-50%);width:50px;height:50px;border-radius:50%;border:3px solid var(--line);background:var(--card);font-size:1.4rem;display:grid;place-items:center;padding:0;transition:transform .15s}
 .stop:hover{transform:translateX(-50%) scale(1.15)}
 .stop.done{border-color:var(--ok);background:var(--ok-l)}
 .stop.now{border-color:var(--brand);animation:ring 1.8s infinite}
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(91,75,219,.55)}100%{box-shadow:0 0 0 16px rgba(91,75,219,0)}}
 .stop .n{position:absolute;top:56px;font:700 .72rem system-ui,sans-serif;color:var(--muted);white-space:nowrap}
-.rplane{position:absolute;top:-4px;left:0;transform:translateX(-50%);font-size:1.9rem;transition:left 1.6s cubic-bezier(.5,0,.2,1);pointer-events:none}
-.rplane span{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+.rplane{position:absolute;top:-4px;transform:translateX(-50%);font-size:1.9rem;pointer-events:none}
 /* mascota */
 .foot{align-items:center;justify-content:space-between}
 .mascot{display:flex;align-items:center;gap:6px;margin-right:auto;min-width:0;max-width:100%}
@@ -298,7 +296,7 @@ pre.anat{margin:6px 0}
 </style>
 </head>
 <body>
-<div class="sky" aria-hidden="true"><span class="cl" style="top:8%;font-size:3.4rem;animation-duration:70s">☁️</span><span class="cl" style="top:30%;font-size:2.4rem;animation-duration:55s;animation-delay:-20s">☁️</span><span class="cl" style="top:62%;font-size:3rem;animation-duration:80s;animation-delay:-45s">☁️</span><span class="cl" style="top:80%;font-size:2rem;animation-duration:60s;animation-delay:-8s">☁️</span><span class="pln">✈️</span></div>
+<div class="sky" aria-hidden="true"><span class="cl" style="top:8%;font-size:3.4rem;animation-duration:70s">☁️</span><span class="cl" style="top:30%;font-size:2.4rem;animation-duration:55s;animation-delay:-20s">☁️</span><span class="cl" style="top:62%;font-size:3rem;animation-duration:80s;animation-delay:-45s">☁️</span><span class="cl" style="top:80%;font-size:2rem;animation-duration:60s;animation-delay:-8s">☁️</span></div>
 <header class="top"><div class="top-in">
   <button class="logo" id="goHome" aria-label="Ir al inicio"><span class="badge">&lt;form&gt;</span> Formularios HTML · el juego</button>
   <span class="pill" id="xp">⭐ 0 pts</span>
@@ -339,7 +337,7 @@ function highlight(src){
 const codeBlock=src=>el('pre',{class:'code',html:`<code>${highlight(src)}</code>`});
 function toast(msg){const t=el('div',{class:'toast'},msg);document.body.append(t);setTimeout(()=>t.remove(),1800)}
 function confetti(n=40){
-  const em=['🎉','⭐','✨','🧳','✈️','🌴','🎈'];
+  const em=['🎉','⭐','✨','🧳','🌴','🎈'];
   for(let i=0;i<n;i++){
     const c=el('span',{class:'confetti'},em[i%em.length]);
     c.style.left=Math.random()*100+'vw';c.style.animationDuration=(1.8+Math.random()*2)+'s';c.style.animationDelay=Math.random()*.6+'s';
@@ -368,7 +366,7 @@ const SFX={
   tap:()=>tone(520,.05,'square',0,.025)
 };
 function burst(x,y,n){
-  const em=['✨','⭐','🎉','🧳','✈️','🌴','💜'];
+  const em=['✨','⭐','🎉','🧳','🌴','💜'];
   for(let i=0;i<(n||14);i++){
     const b=el('span',{class:'bp'},em[i%em.length]),a=Math.random()*Math.PI*2,d=60+Math.random()*90;
     b.style.left=x+'px';b.style.top=y+'px';
@@ -806,7 +804,7 @@ const HERO_ART=`<svg class="hero-art" viewBox="0 0 420 240" aria-hidden="true">
 <g class="bal"><path d="M96 40a38 44 0 1 1 76 0c0 24-22 46-38 60-16-14-38-36-38-60z" fill="#ff6b81"/><path d="M134 8v92" stroke="#fff" stroke-opacity=".45" stroke-width="7"/><path d="M114 100l10 22h20l10-22" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2"/><rect x="122" y="122" width="24" height="16" rx="3" fill="#8a4f00"/></g>
 <path d="M0 240V176l60-52 50 42 70-72 70 82 50-42 60 62 60-30v74z" fill="rgba(255,255,255,.18)"/>
 <path d="M0 240v-40l70-30 60 28 80-38 90 44 120-26v62z" fill="rgba(255,255,255,.14)"/>
-<g class="pl"><text x="0" y="0" font-size="34">✈️</text></g></svg>`;
+</svg>`;
 function routeMap(){
   const n=LEVELS.length,done=LEVELS.map(L=>(save.best[L.id]||0)>0);
   const idx=done.every(Boolean)?n-1:done.indexOf(false);
@@ -818,8 +816,7 @@ function routeMap(){
     route.append(st);
   });
   route.append(pl);
-  pl.style.left='0%';
-  setTimeout(()=>{pl.style.left=pos(idx);rf.style.width=pos(idx)},150);
+  pl.style.left=pos(idx);rf.style.width=pos(idx);
   return el('div',{class:'route-scroll'},route);
 }
 function diploma(){
@@ -898,7 +895,7 @@ const KIND={quiz:'Pregunta',match:'Emparejar',sort:'Clasificar',fill:'Completa e
 function finishLevel(){
   const L=LEVELS[cur.l],max=levelMax(L),st=starsFor(cur.pts,max);
   save.best[L.id]=Math.max(save.best[L.id]||0,cur.pts);persist();updXP();
-  SFX.win();planeBanner(st===3?'¡Nivel perfecto!':'¡Nivel completado!');if(st>=2)confetti();
+  SFX.win();if(st>=2)confetti();
   const msg=st===3?'¡Perfecto! Dominas este tema.':st===2?'¡Muy bien! Repasa los fallos si quieres las 3 estrellas.':'Has avanzado, pero conviene repetir el nivel.';
   const allDone=LEVELS.every(l=>save.best[l.id]>0);
   const card=el('section',{class:'card res'},
