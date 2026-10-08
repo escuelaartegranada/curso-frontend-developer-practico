@@ -6,18 +6,18 @@
 <title>Formularios HTML: el juego</title>
 <style>
 :root{
-  --bg:#f4f6fb; --card:#ffffff; --ink:#1f2437; --muted:#5d6580; --line:#dfe3ef;
-  --brand:#5b4bdb; --brand-d:#4337b3; --brand-l:#ece9ff;
-  --ok:#1f9d57; --ok-l:#e2f6ea; --ko:#d9334a; --ko-l:#fde8eb; --warn:#f2a900; --warn-l:#fff4d6;
-  --code-bg:#1e2236; --code-ink:#e8ecff; --code-tag:#ff9ecb; --code-attr:#ffd479; --code-str:#9be3a4; --code-com:#8a93b8;
-  --shadow:0 6px 22px rgba(30,34,70,.10);
+  --bg:#f6f3ec; --card:#ffffff; --ink:#23262d; --muted:#666b75; --line:#d8d3c6;
+  --brand:#1d4f91; --brand-d:#163b6e; --brand-l:#e8eff8;
+  --ok:#2e7d32; --ok-l:#e6f3e6; --ko:#c62828; --ko-l:#fbe9e7; --warn:#c98a00; --warn-l:#fdf3d8;
+  --code-bg:#222733; --code-ink:#e8ecff; --code-tag:#ff9ecb; --code-attr:#ffd479; --code-str:#9be3a4; --code-com:#8a93b8;
+  --shadow:0 1px 4px rgba(0,0,0,.08);
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#12141f; --card:#1b1e2e; --ink:#eef0fa; --muted:#a3abc9; --line:#2f3450;
-    --brand:#8a7dff; --brand-d:#a79dff; --brand-l:#262449;
-    --ok:#4cd68a; --ok-l:#183a2a; --ko:#ff6b81; --ko-l:#40202a; --warn:#ffc83d; --warn-l:#3b3216;
-    --code-bg:#0f1120; --shadow:0 6px 22px rgba(0,0,0,.4);
+    --bg:#16181d; --card:#20232a; --ink:#ececec; --muted:#a0a5b0; --line:#363a45;
+    --brand:#7fb0f0; --brand-d:#a8c9f5; --brand-l:#222f42;
+    --ok:#6fcf74; --ok-l:#1e3322; --ko:#ef7b72; --ko-l:#3b2321; --warn:#e6b84a; --warn-l:#3a3318;
+    --code-bg:#0f1117; --shadow:0 1px 4px rgba(0,0,0,.4);
   }
 }
 *{box-sizing:border-box}
@@ -28,17 +28,17 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background
 header.top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.04)}
 .top-in{max-width:none;margin:0;padding:10px clamp(16px,3vw,48px);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .logo{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:8px;margin-right:auto;cursor:pointer;background:none;border:0;padding:0}
-.logo span.badge{background:var(--brand);color:#fff;border-radius:10px;padding:2px 8px;font-family:ui-monospace,Menlo,monospace;font-size:.9rem}
+.logo span.badge{background:var(--brand);color:#fff;border-radius:6px;padding:2px 8px;font-family:ui-monospace,Menlo,monospace;font-size:.9rem}
 .pill{background:var(--warn-l);color:var(--ink);border:1px solid var(--warn);border-radius:999px;padding:4px 12px;font-weight:700;font-size:.9rem}
-.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 16px;font-weight:600;transition:transform .08s,box-shadow .15s,background .15s}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:9px 16px;font-weight:600;transition:transform .08s,box-shadow .15s,background .15s}
 .btn:hover{box-shadow:var(--shadow)}
 .btn:active{transform:scale(.97)}
 .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
 .btn.primary:hover{background:var(--brand-d)}
 .btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
-.btn.small{padding:5px 11px;font-size:.88rem;border-radius:9px}
+.btn.small{padding:5px 11px;font-size:.88rem;border-radius:6px}
 main{max-width:none;margin:0;padding:22px clamp(16px,3vw,48px) 80px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow);animation:pop .25s ease}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:24px;box-shadow:var(--shadow);animation:pop .25s ease}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 h1{font-size:1.9rem;line-height:1.2;margin:.2em 0 .3em}
 h2{font-size:1.4rem;margin:.1em 0 .5em;line-height:1.25}
@@ -46,15 +46,15 @@ h3{margin:.2em 0}
 p{margin:.55em 0}
 .muted{color:var(--muted)}
 /* home */
-.hero{background:linear-gradient(135deg,var(--brand),#a14bdb);color:#fff;border-radius:22px;padding:28px 26px;box-shadow:var(--shadow)}
+.hero{background:var(--brand);color:#fff;border-radius:8px;padding:26px 26px}
 .hero h1{margin-top:0}
 .hero p{opacity:.95;max-width:62ch}
 .hero .name{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
-.hero input{border:0;border-radius:12px;padding:10px 14px;font:inherit;min-width:220px;color:#1f2437}
+.hero input{border:0;border-radius:6px;padding:10px 14px;font:inherit;min-width:220px;color:#1f2437}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:20px}
-.lvl{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:6px;transition:transform .12s,box-shadow .15s,border-color .15s}
+.lvl{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:6px;transition:transform .12s,box-shadow .15s,border-color .15s}
 .lvl:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--brand)}
-.lvl .ic{font-size:2rem}
+.lvl .ic{align-self:flex-start;font:700 .9rem ui-monospace,Menlo,monospace;background:var(--brand-l);color:var(--brand-d);padding:2px 8px;border-radius:5px}
 .lvl .num{font-size:.78rem;font-weight:800;letter-spacing:.06em;color:var(--brand);text-transform:uppercase}
 .lvl .t{font-weight:800;font-size:1.05rem}
 .lvl .d{color:var(--muted);font-size:.92rem;flex:1}
@@ -63,23 +63,23 @@ p{margin:.55em 0}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 /* progress */
 .prog{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:14px}
-.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),#a14bdb);transition:width .3s}
+.prog i{display:block;height:100%;background:var(--brand);transition:width .3s}
 .meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);margin-bottom:6px;font-weight:600}
 .kind{display:inline-block;background:var(--brand-l);color:var(--brand-d);font-weight:800;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:8px}
 .foot{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}
-.fb{margin-top:16px;border-radius:14px;padding:12px 16px;border:1px solid;animation:pop .2s}
+.fb{margin-top:16px;border-radius:8px;padding:12px 16px;border:1px solid;animation:pop .2s}
 .fb.ok{background:var(--ok-l);border-color:var(--ok)}
 .fb.ko{background:var(--ko-l);border-color:var(--ko)}
 .fb.info{background:var(--warn-l);border-color:var(--warn)}
 .fb ul{margin:.3em 0 0;padding-left:1.2em}
 /* code */
-pre.code{margin:12px 0;background:var(--code-bg);color:var(--code-ink);border-radius:14px;padding:14px 16px;overflow:auto;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;tab-size:2}
+pre.code{margin:12px 0;background:var(--code-bg);color:var(--code-ink);border-radius:8px;padding:14px 16px;overflow:auto;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;tab-size:2}
 pre.code code{background:none;color:inherit;padding:0;font-size:inherit}
 pre.code .t,.bl .t{color:var(--code-tag)} pre.code .a,.bl .a{color:var(--code-attr)} pre.code .s,.bl .s{color:var(--code-str)} pre.code .c,.bl .c{color:var(--code-com);font-style:italic}
 .demo-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;margin:12px 0}
 @media (max-width:760px){.demo-wrap{grid-template-columns:1fr}}
 .demo-wrap pre.code{margin:0}
-.demo{border:2px dashed var(--brand);border-radius:14px;padding:14px;background:var(--card);position:relative;font-family:"Times New Roman",serif}
+.demo{border:2px dashed var(--brand);border-radius:8px;padding:14px;background:var(--card);position:relative;font-family:"Times New Roman",serif}
 .demo::before{content:"Resultado en el navegador";position:absolute;top:-11px;left:12px;background:var(--card);padding:0 8px;font:700 .72rem system-ui,sans-serif;color:var(--brand);letter-spacing:.04em;text-transform:uppercase}
 .demo label{margin-right:4px}
 .demo p{margin:.5em 0}
@@ -88,10 +88,10 @@ pre.code .t,.bl .t{color:var(--code-tag)} pre.code .a,.bl .a{color:var(--code-at
 table.t{border-collapse:collapse;width:100%;margin:12px 0;font-size:.95rem}
 table.t th,table.t td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 table.t th{background:var(--brand-l);width:34%;font-weight:700}
-.tip{background:var(--warn-l);border-left:5px solid var(--warn);padding:10px 14px;border-radius:10px;margin:12px 0}
+.tip{background:var(--warn-l);border-left:5px solid var(--warn);padding:10px 14px;border-radius:6px;margin:12px 0}
 /* quiz */
 .opts{display:grid;gap:10px;margin-top:12px}
-.opt{text-align:left;border:2px solid var(--line);background:var(--card);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;transition:border-color .12s,background .12s}
+.opt{text-align:left;border:2px solid var(--line);background:var(--card);border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;transition:border-color .12s,background .12s}
 .opt:hover{border-color:var(--brand)}
 .opt .k{flex:none;width:26px;height:26px;border-radius:8px;background:var(--brand-l);color:var(--brand-d);display:grid;place-items:center;font-weight:800;font-size:.85rem}
 .opt.sel{border-color:var(--brand);background:var(--brand-l)}
@@ -102,18 +102,18 @@ table.t th{background:var(--brand-l);width:34%;font-weight:700}
 /* match / sort */
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;margin-top:12px}
 @media (max-width:620px){.cols{grid-template-columns:1fr 1fr;gap:10px}}
-.chip{border:2px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;text-align:left;transition:all .12s;width:100%}
+.chip{border:2px solid var(--line);background:var(--card);border-radius:6px;padding:10px 12px;text-align:left;transition:all .12s;width:100%}
 .chip:hover{border-color:var(--brand)}
 .chip.sel{border-color:var(--brand);background:var(--brand-l)}
 .chip.ok{border-color:var(--ok);background:var(--ok-l);pointer-events:none}
 .chip.ko{border-color:var(--ko);background:var(--ko-l);animation:shake .35s}
 .col{display:grid;gap:10px;align-content:start}
-.sortrow{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;border:2px solid var(--line);border-radius:12px;padding:8px 10px;margin-top:10px}
+.sortrow{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;border:2px solid var(--line);border-radius:6px;padding:8px 10px;margin-top:10px}
 .sortrow.ok{border-color:var(--ok);background:var(--ok-l)}
 .sortrow.ko{animation:shake .35s;border-color:var(--ko)}
 @media (max-width:560px){.sortrow{grid-template-columns:1fr 1fr}.sortrow>span{grid-column:1/-1}}
 /* fill */
-.fill{background:var(--code-bg);color:var(--code-ink);border-radius:14px;padding:14px 16px;font:14px/2.1 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;overflow:auto;margin:12px 0}
+.fill{background:var(--code-bg);color:var(--code-ink);border-radius:8px;padding:14px 16px;font:14px/2.1 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;overflow:auto;margin:12px 0}
 .fill input{font:inherit;background:#fff;color:#1f2437;border:2px solid var(--code-attr);border-radius:6px;padding:0 6px;margin:0 2px;text-align:center;outline:none}
 .fill input:focus{box-shadow:0 0 0 3px rgba(255,212,121,.4)}
 .fill input.ok{border-color:var(--ok);background:#d9f7e5}
@@ -121,13 +121,13 @@ table.t th{background:var(--brand-l);width:34%;font-weight:700}
 /* order */
 .ord{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
 @media (max-width:760px){.ord{grid-template-columns:1fr}}
-.zone{background:var(--bg);border:2px dashed var(--line);border-radius:14px;padding:10px;min-height:120px;display:grid;gap:6px;align-content:start}
+.zone{background:var(--bg);border:2px dashed var(--line);border-radius:8px;padding:10px;min-height:120px;display:grid;gap:6px;align-content:start}
 .zone h4{margin:0 0 2px;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.ln{background:var(--code-bg);color:var(--code-ink);border:2px solid transparent;border-radius:10px;padding:6px 10px;text-align:left;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre;overflow:auto}
+.ln{background:var(--code-bg);color:var(--code-ink);border:2px solid transparent;border-radius:6px;padding:6px 10px;text-align:left;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre;overflow:auto}
 .ln:hover{border-color:var(--code-attr)}
 .ln.ok{border-color:var(--ok)} .ln.ko{border-color:var(--ko)}
 /* bugs */
-.bugs{background:var(--code-bg);border-radius:14px;padding:8px;margin:12px 0;display:grid;gap:2px}
+.bugs{background:var(--code-bg);border-radius:8px;padding:8px;margin:12px 0;display:grid;gap:2px}
 .bl{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;text-align:left;background:transparent;border:2px solid transparent;border-radius:8px;color:var(--code-ink);padding:3px 8px;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;white-space:pre;overflow:auto}
 .bl:hover{background:rgba(255,255,255,.07)}
 .bl .n{color:var(--code-com);text-align:right}
@@ -137,10 +137,10 @@ table.t th{background:var(--brand-l);width:34%;font-weight:700}
 /* lab */
 .lab{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
 @media (max-width:820px){.lab{grid-template-columns:1fr}}
-textarea.ed{width:100%;min-height:340px;resize:vertical;background:var(--code-bg);color:var(--code-ink);border:0;border-radius:14px;padding:14px;font:13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;tab-size:2}
-iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand);border-radius:14px;background:#fff}
+textarea.ed{width:100%;min-height:340px;resize:vertical;background:var(--code-bg);color:var(--code-ink);border:0;border-radius:8px;padding:14px;font:13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;tab-size:2}
+iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand);border-radius:8px;background:#fff}
 .checks{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:6px}
-.checks li{display:flex;gap:10px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.checks li{display:flex;gap:10px;padding:8px 12px;border-radius:6px;border:1px solid var(--line);background:var(--bg)}
 .checks li.ok{background:var(--ok-l);border-color:var(--ok)}
 .checks li.ko{background:var(--ko-l);border-color:var(--ko)}
 /* cheat */
@@ -151,19 +151,13 @@ iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand)
 .res{text-align:center}
 .res .big{font-size:4rem}
 .res .stars{font-size:2.4rem}
-.diploma{margin:22px auto 6px;max-width:620px;border:6px double var(--brand);border-radius:18px;padding:22px;text-align:center;background:var(--card)}
+.diploma{margin:22px auto 6px;max-width:620px;border:6px double var(--brand);border-radius:8px;padding:22px;text-align:center;background:var(--card)}
 .diploma h2{color:var(--brand)}
 .diploma .nm{font-size:1.7rem;font-weight:800;border-bottom:2px solid var(--line);display:inline-block;padding:0 22px 4px;margin:6px 0}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;z-index:50;font-weight:600;animation:pop .2s}
 .confetti{position:fixed;top:-30px;font-size:1.6rem;z-index:60;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.9}}
 /* ===== gráficos y animaciones ===== */
-.sky{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:linear-gradient(#dcebff,#f4f6fb 60%)}
-@media (prefers-color-scheme: dark){.sky{background:linear-gradient(#1b1f40,#12141f 65%)}}
-.sky .cl{position:absolute;opacity:.65;animation:drift linear infinite}
-@keyframes drift{from{transform:translateX(-25vw)}to{transform:translateX(125vw)}}
-.sky .pln{position:absolute;font-size:2.2rem;top:14%;left:0;animation:skyfly 22s linear infinite}
-@keyframes skyfly{0%{transform:translate(-10vw,30px) rotate(-6deg)}50%{transform:translate(55vw,-24px) rotate(3deg)}100%{transform:translate(112vw,26px) rotate(-5deg)}}
 .hero{position:relative;overflow:hidden}
 .hero>*:not(.hero-art){position:relative;z-index:1}
 .hero-art{position:absolute;right:0;bottom:0;width:min(48%,430px);z-index:0}
@@ -175,8 +169,6 @@ iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand)
 @keyframes plfly{from{transform:translate(-50px,120px)}to{transform:translate(460px,30px)}}
 .card{position:relative}
 .card.shake{animation:shake .4s}
-.lvl{animation:pop .45s both;animation-delay:calc(var(--i)*60ms)}
-.lvl:hover .ic{animation:wiggle .5s}
 @keyframes wiggle{25%{transform:rotate(-14deg) scale(1.2)}75%{transform:rotate(14deg) scale(1.2)}}
 .pill.pop{animation:pill .5s}
 .streak{background:#ffe3d1;border-color:#ff7a45}
@@ -185,14 +177,14 @@ iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand)
 .route-scroll{overflow-x:auto;padding:6px 0 0;margin-top:18px}
 .route{position:relative;height:116px;min-width:640px;margin:0 34px}
 .route .rl{position:absolute;left:0;right:0;top:56px;border-top:5px dashed var(--line)}
-.route .rf{position:absolute;left:0;top:56px;height:5px;background:linear-gradient(90deg,var(--ok),var(--brand));border-radius:9px}
-.stop{position:absolute;top:34px;transform:translateX(-50%);width:50px;height:50px;border-radius:50%;border:3px solid var(--line);background:var(--card);font-size:1.4rem;display:grid;place-items:center;padding:0;transition:transform .15s}
+.route .rf{position:absolute;left:0;top:56px;height:5px;background:var(--brand);border-radius:6px}
+.stop{position:absolute;top:34px;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;border:3px solid var(--line);background:var(--card);font:700 1rem system-ui,sans-serif;color:var(--ink);display:grid;place-items:center;padding:0;transition:transform .15s}
 .stop:hover{transform:translateX(-50%) scale(1.15)}
 .stop.done{border-color:var(--ok);background:var(--ok-l)}
 .stop.now{border-color:var(--brand);animation:ring 1.8s infinite}
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(91,75,219,.55)}100%{box-shadow:0 0 0 16px rgba(91,75,219,0)}}
 .stop .n{position:absolute;top:56px;font:700 .72rem system-ui,sans-serif;color:var(--muted);white-space:nowrap}
-.rplane{position:absolute;top:-4px;transform:translateX(-50%);font-size:1.9rem;pointer-events:none}
+.rplane{position:absolute;top:8px;transform:translateX(-50%);font-size:1rem;color:var(--brand);pointer-events:none}
 /* mascota */
 .foot{align-items:center;justify-content:space-between}
 .mascot{display:flex;align-items:center;gap:6px;margin-right:auto;min-width:0;max-width:100%}
@@ -210,7 +202,7 @@ iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand)
 .mascot.jump .mx{animation:jump .6s}
 .mascot.shk .mx{animation:shake .45s}
 @keyframes jump{30%{transform:translateY(-22px) scale(1.06)}60%{transform:translateY(0) scaleY(.92)}}
-.bubble{background:var(--brand-l);color:var(--ink);border-radius:14px;padding:6px 12px;font-size:.88rem;font-weight:600;max-width:260px;position:relative}
+.bubble{background:var(--brand-l);color:var(--ink);border-radius:8px;padding:6px 12px;font-size:.88rem;font-weight:600;max-width:260px;position:relative}
 .bubble:empty{display:none}
 .bubble::before{content:"";position:absolute;left:-7px;top:50%;margin-top:-7px;border:7px solid transparent;border-left:0;border-right-color:var(--brand-l)}
 /* partículas */
@@ -227,7 +219,7 @@ iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand)
 .chip.ok,.opt.ok,.sortrow.ok{animation:okpop .4s}
 @keyframes okpop{40%{transform:scale(1.04)}}
 /* ilustraciones de las lecciones */
-.art{margin:14px 0;border:2px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(180deg,var(--brand-l),var(--card))}
+.art{margin:14px 0;border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--brand-l)}
 .art .cap{font-size:.9rem;color:var(--muted);text-align:center;margin:8px 0 0}
 .art .ttl{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);margin-bottom:6px}
 pre.anat{margin:6px 0}
@@ -235,25 +227,26 @@ pre.anat{margin:6px 0}
 .part.on{background:rgba(255,255,255,.18);box-shadow:0 0 0 2px var(--code-attr)}
 .lane{display:grid;grid-template-columns:84px 1fr 38px;align-items:center;gap:8px;margin:6px 0;font-weight:700;font-size:.85rem}
 .lane .road{position:relative;height:44px;background:repeating-linear-gradient(90deg,var(--line) 0 14px,transparent 14px 24px) center/100% 4px no-repeat}
-.lane .srv{font-size:1.7rem}
+.lane .srv{font-size:.72rem;color:var(--muted)}
 .pk{position:absolute;top:5px;left:0;white-space:nowrap;padding:4px 10px;border-radius:99px;font:700 .78rem ui-monospace,monospace;animation:ride 4.5s ease-in-out infinite}
 .pk.g{background:var(--warn-l);border:2px solid var(--warn)}
 .pk.p{background:var(--ok-l);border:2px solid var(--ok);animation-delay:.3s}
 @keyframes ride{0%{left:0;transform:translateX(0);opacity:0}8%{opacity:1}75%{opacity:1}100%{left:100%;transform:translateX(-100%);opacity:0}}
 .flow{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}
-.flow .st{display:flex;flex-direction:column;align-items:center;font-size:2rem;padding:8px 12px;border-radius:14px;animation:lit 6s infinite}
+.flow .st b{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:1rem}
+.flow .st{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 12px;border-radius:8px;animation:lit 6s infinite}
 .flow .st:nth-of-type(2){animation-delay:1.5s}.flow .st:nth-of-type(3){animation-delay:3s}.flow .st:nth-of-type(4){animation-delay:4.5s}
 .flow small{font:600 .72rem ui-monospace,monospace;color:var(--muted);text-align:center}
 .flow i{font-style:normal;font-weight:900;color:var(--brand);font-size:1.4rem;animation:nudge 1s infinite}
 @keyframes nudge{50%{transform:translateX(5px)}}
 @keyframes lit{0%,24%{transform:scale(1.15);background:var(--warn-l);box-shadow:0 0 0 3px var(--warn)}30%,100%{transform:none;background:transparent;box-shadow:none}}
 .lf{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
-.lf-box{background:var(--card);border:2px solid var(--brand);border-radius:12px;padding:10px 14px;font:600 .88rem ui-monospace,monospace}
+.lf-box{background:var(--card);border:2px solid var(--brand);border-radius:6px;padding:10px 14px;font:600 .88rem ui-monospace,monospace}
 .lf-box small{display:block;color:var(--muted)}
 .lf-box .fld{display:block;margin-top:6px;font:1rem "Times New Roman",serif;border:1px solid #888;padding:2px 8px;min-width:150px;border-radius:3px;background:#fff;color:#222}
 .gl{animation:glow 1.6s infinite;border-radius:4px;padding:0 3px}
 @keyframes glow{50%{background:var(--warn);color:#222}}
-.lf-link{font-size:1.9rem;animation:lnk 1.6s infinite}
+.lf-link{font-size:1.9rem;font-weight:800;color:var(--brand)}
 @keyframes lnk{50%{transform:scale(1.3) rotate(15deg)}}
 .caret{display:inline-block;width:2px;height:1em;background:#222;vertical-align:middle;margin-left:2px;animation:cr 1s steps(1) infinite}
 @keyframes cr{50%{opacity:0}}
@@ -296,14 +289,13 @@ pre.anat{margin:6px 0}
 </style>
 </head>
 <body>
-<div class="sky" aria-hidden="true"><span class="cl" style="top:8%;font-size:3.4rem;animation-duration:70s">☁️</span><span class="cl" style="top:30%;font-size:2.4rem;animation-duration:55s;animation-delay:-20s">☁️</span><span class="cl" style="top:62%;font-size:3rem;animation-duration:80s;animation-delay:-45s">☁️</span><span class="cl" style="top:80%;font-size:2rem;animation-duration:60s;animation-delay:-8s">☁️</span></div>
 <header class="top"><div class="top-in">
   <button class="logo" id="goHome" aria-label="Ir al inicio"><span class="badge">&lt;form&gt;</span> Formularios HTML · el juego</button>
-  <span class="pill" id="xp">⭐ 0 pts</span>
-  <span class="pill streak" id="streak" hidden>🔥 x0</span>
-  <button class="btn small" id="snd" aria-label="Sonido">🔊</button>
-  <button class="btn small" id="goCheat">📖 Chuleta</button>
-  <button class="btn small" id="goHome2">🏠 Inicio</button>
+  <span class="pill" id="xp">Puntos: 0</span>
+  <span class="pill streak" id="streak" hidden>Racha: 0</span>
+  <button class="btn small" id="snd" aria-label="Sonido">Sonido: sí</button>
+  <button class="btn small" id="goCheat">Chuleta</button>
+  <button class="btn small" id="goHome2">Inicio</button>
 </div></header>
 <main id="main"></main>
 
@@ -378,14 +370,14 @@ function floatText(x,y,t){const f=el('span',{class:'ft'},t);f.style.left=x+'px';
 function planeBanner(t){const b=el('div',{class:'banner'},'✈️ '+t);document.body.append(b);setTimeout(()=>b.remove(),4200)}
 let streak=0;
 function setStreak(n){
-  streak=n;const p=$('#streak');p.hidden=n<2;p.textContent='🔥 x'+n;
+  streak=n;const p=$('#streak');p.hidden=n<2;p.textContent='Racha: '+n;
   p.classList.remove('pop');void p.offsetWidth;p.classList.add('pop');
 }
 const MSG={
-  start:{learn:['Lee con calma y juega con el resultado 👆','¡Pulsa, escribe y prueba la demo!','Aprende y luego… ¡a jugar! 🎮'],quiz:['Piensa bien… ¡tú puedes! 🤔','Lee cada opción con calma'],match:['Une las parejas 🔗'],sort:['Clasifica cada situación 🗂️'],fill:['Rellena los huecos 🧩'],order:['Ordena como un pro 📦'],bugs:['Activa la lupa… 🔎'],lab:['¡Gran final! Construye tu formulario ✨']},
-  ok:['¡Genial! 🎉','¡Eso es! 💪','¡Crack! ⭐','¡Perfecto! 🚀','¡Bien jugado! 👏'],
-  ko:['¡Casi! Otra vez 💪','Uy… revisa con calma 🧐','No pasa nada, ¡sigue! 🌈'],
-  streak:'🔥 ¡Racha de {n}! Imparable'
+  start:{learn:['Lee la explicación y prueba el ejemplo.','Pruébalo tú en el cuadro de resultado.','Cuando lo tengas claro, sigue.'],quiz:['Lee las opciones con calma.','Piénsalo antes de contestar.'],match:['Une cada elemento con su pareja.'],sort:['Clasifica cada caso.'],fill:['Completa los huecos.'],order:['Pon las líneas en orden.'],bugs:['Busca las líneas con fallos.'],lab:['Último reto: escribe tu propio formulario.']},
+  ok:['Correcto.','Eso es.','Bien.','Muy bien.'],
+  ko:['Casi. Prueba otra vez.','Revísalo con calma.','Esa no es, inténtalo de nuevo.'],
+  streak:'Llevas {n} seguidas'
 };
 const MASCOT_SVG=`<svg class="mx idle" viewBox="0 0 120 130" aria-hidden="true"><g class="mx-body">
 <rect x="44" y="12" width="32" height="26" rx="9" fill="none" stroke="#8a4f00" stroke-width="7"/>
@@ -411,7 +403,7 @@ function makeMascot(){
 /* ============ ilustraciones animadas ============ */
 const ART={};
 ART.anatomy=()=>{
-  const caps=['`<form>` abre el formulario: todo lo que haya dentro se envía junto.','`action`: a qué archivo o URL llegan los datos.','`method`: cómo viajan los datos (get visibles / post ocultos).','`</form>` cierra el formulario: ¡no olvides cerrarlo!'];
+  const caps=['`<form>` abre el formulario: todo lo que haya dentro se envía junto.','`action`: a qué archivo o URL llegan los datos.','`method`: cómo viajan los datos (get visibles / post ocultos).','`</form>` cierra el formulario: no olvides cerrarlo.'];
   const code=el('pre',{class:'code anat'});
   const mk=(t,g,cls)=>{const s=el('span',{class:cls+(g!=null?' part':''),'data-g':g},t);if(g!=null)s.onclick=()=>{set(g);SFX.tap()};return s};
   code.append(mk('<form','0','t'),' ',mk('action="reservar.php"','1','a'),' ',mk('method="post"','2','a'),mk('>','0','t'),'\n  ',mk('<!-- aquí van los campos -->',null,'c'),'\n',mk('</form>','3','t'));
@@ -421,16 +413,16 @@ ART.anatomy=()=>{
   set(0);const iv=setInterval(()=>{if(!document.body.contains(wrap)){clearInterval(iv);return}set((g+1)%4)},2600);
   return wrap;
 };
-ART.flow=()=>el('div',{class:'art',html:`<div class="ttl">El viaje de los datos</div><div class="flow"><span class="st">🧑‍💻<small>El usuario<br>rellena</small></span><i>→</i><span class="st">📝<small>&lt;form&gt;<br>recoge</small></span><i>→</i><span class="st">✉️<small>action +<br>method</small></span><i>→</i><span class="st">🖥️<small>El servidor<br>los recibe</small></span></div>`});
+ART.flow=()=>el('div',{class:'art',html:`<div class="ttl">El viaje de los datos</div><div class="flow"><span class="st"><b>1</b><small>El usuario<br>rellena</small></span><i>→</i><span class="st"><b>2</b><small>&lt;form&gt;<br>recoge</small></span><i>→</i><span class="st"><b>3</b><small>action +<br>method</small></span><i>→</i><span class="st"><b>4</b><small>El servidor<br>los recibe</small></span></div>`});
 ART.getpost=()=>el('div',{class:'art',html:`<div class="ttl">GET vs POST en acción</div>
-<div class="lane"><span>🧑‍💻 GET</span><div class="road"><span class="pk g">?destino=quito&amp;adultos=2</span></div><span class="srv">🖥️</span></div>
-<div class="lane"><span>🧑‍💻 POST</span><div class="road"><span class="pk p">✉️ 🔒 datos ocultos</span></div><span class="srv">🖥️</span></div>
+<div class="lane"><span>GET</span><div class="road"><span class="pk g">?destino=quito&amp;adultos=2</span></div><span class="srv">servidor</span></div>
+<div class="lane"><span>POST</span><div class="road"><span class="pk p">datos ocultos</span></div><span class="srv">servidor</span></div>
 <p class="cap">GET deja los datos <strong>a la vista</strong> en la URL · POST los lleva <strong>dentro del sobre</strong></p>`});
 ART.labelfor=()=>el('div',{class:'art',html:`<div class="ttl">for + id = ¡conectados!</div><div class="lf">
-<div class="lf-box"><small>&lt;label&gt;</small>for="<b class="gl">correo</b>"<span class="fld">Email *</span></div><div class="lf-link">🔗</div>
+<div class="lf-box"><small>&lt;label&gt;</small>for="<b class="gl">correo</b>"<span class="fld">Email *</span></div><div class="lf-link">=</div>
 <div class="lf-box"><small>&lt;input&gt;</small>id="<b class="gl">correo</b>"<span class="fld">yo@mail.com<i class="caret"></i></span></div></div>
 <p class="cap">Mismo texto en <code>for</code> e <code>id</code>: al pulsar la etiqueta, se activa el campo</p>`});
-ART.validate=()=>el('div',{class:'art',html:`<div class="ttl">Validación automática del navegador</div><div class="vd"><span class="vd-f"></span><span class="vd-b">Enviar</span><span class="vd-m">⚠️ Rellena este campo.</span></div><p class="cap">Con <code>required</code> el navegador avisa solo, sin JavaScript</p>`});
+ART.validate=()=>el('div',{class:'art',html:`<div class="ttl">Validación automática del navegador</div><div class="vd"><span class="vd-f"></span><span class="vd-b">Enviar</span><span class="vd-m">Rellena este campo.</span></div><p class="cap">Con <code>required</code> el navegador avisa solo, sin JavaScript</p>`});
 ART.choices=()=>el('div',{class:'art',html:`<div class="ttl">Radio vs checkbox</div><div class="chs">
 <div><strong>radio</strong> · solo una<div class="ci"><span class="rd a"></span>5 estrellas</div><div class="ci"><span class="rd b"></span>4 estrellas</div><div class="ci"><span class="rd c"></span>3 estrellas</div></div>
 <div><strong>checkbox</strong> · varias<div class="ci"><span class="ck a"></span>Cruceros</div><div class="ci"><span class="ck b"></span>Tours</div><div class="ci"><span class="ck c"></span>Transporte</div></div></div>`});
@@ -441,7 +433,7 @@ ART.dropdown=()=>el('div',{class:'art',html:`<div class="ttl">Cómo funciona un 
 // demo: true = renderiza el mismo código; string = renderiza ese HTML
 const LEVELS=[
 /* ---------- 1 ---------- */
-{id:'form',icon:'📝',title:'El contenedor <form>',desc:'Qué es un formulario, action, method y name.',steps:[
+{id:'form',icon:'<form>',title:'El contenedor <form>',desc:'Qué es un formulario, action, method y name.',steps:[
  {t:'learn',title:'¿Qué es un formulario?',blocks:[
   ['p','Un formulario es la forma en que una página web **recoge datos** del usuario: reservas, registros, búsquedas, contacto…'],
   ['p','Todo formulario vive dentro de la etiqueta `<form>`. Es un **contenedor**: todos los campos que quieras enviar juntos deben estar dentro de ella.'],
@@ -457,7 +449,7 @@ const LEVELS=[
   ['table',[['method="get"','Los datos viajan **en la URL** (se ven). Útil para búsquedas. Tamaño limitado.'],['method="post"','Los datos viajan **ocultos** en el cuerpo de la petición. Ideal para reservas, registros y contraseñas.']]],
   ['code',`https://miagencia.com/reservar.php?destino=quito&adultos=2`],
   ['p','Esa URL es lo que verías con `get`: cada dato aparece como `nombre=valor`. Ese **nombre** sale del atributo `name` del campo.'],
-  ['tip','⚠️ Un campo **sin `name` no se envía**. El dato se pierde aunque el usuario lo haya escrito.'],
+  ['tip','Ojo: un campo **sin `name` no se envía**. El dato se pierde aunque el usuario lo haya escrito.'],
  ]},
  {t:'quiz',q:'¿Qué atributo de `<form>` indica **a dónde** se envían los datos?',options:['action','method','name','target'],answer:0,why:'`action` contiene la URL o archivo que procesará el formulario. `method` dice *cómo* se envían.'},
  {t:'quiz',q:'Vas a enviar una **contraseña**. ¿Qué método es más adecuado?',options:['`method="post"`','`method="get"`','`method="send"`','`method="hidden"`'],answer:0,why:'Con `post` los datos no aparecen en la URL. Con `get` quedarían visibles en la barra de direcciones y en el historial.',hint:'Piensa en cuál de los dos deja los datos visibles en la URL.'},
@@ -465,12 +457,12 @@ const LEVELS=[
  {t:'quiz',fixed:true,q:'Verdadero o falso: un `<input type="text">` **sin** atributo `name` enviará su valor al servidor.',options:['Verdadero','Falso'],answer:1,why:'Falso. Sin `name` el navegador no incluye el campo en los datos del envío.'},
 ]},
 /* ---------- 2 ---------- */
-{id:'label',icon:'🏷️',title:'Etiquetas <label>',desc:'Cómo describir cada campo y enlazarlo con for / id.',steps:[
+{id:'label',icon:'<label>',title:'Etiquetas <label>',desc:'Cómo describir cada campo y enlazarlo con for / id.',steps:[
  {t:'learn',title:'<label>: el texto de cada campo',blocks:[
   ['p','`<label>` es el texto que describe un campo (“Nombre”, “Email”…). Mejora la accesibilidad y hace que, al hacer clic en el texto, el campo reciba el foco.'],
   ['code',`<label for="nombre">Nombre y apellido *</label>
 <input type="text" id="nombre" name="nombre">`,true],
-  ['p','👆 Prueba: haz clic sobre el texto de la etiqueta en el resultado.'],
+  ['p','Prueba: haz clic sobre el texto de la etiqueta en el resultado.'],
   ['art','labelfor'],
   ['table',[['for','Debe valer **lo mismo que el `id`** del campo al que describe'],['id','Identificador único del campo en la página'],['name','Nombre con el que viaja el dato al enviar el formulario']]],
  ]},
@@ -488,7 +480,7 @@ const LEVELS=[
  {t:'quiz',q:'¿Cómo se enlaza un `<label>` con su `<input>` usando atributos?',options:['El `for` del label es igual al `id` del input','El `for` del label es igual al `name` del input','El `id` del label es igual al `name` del input','No hace falta enlazarlos nunca'],answer:0,why:'`for` apunta al `id` del campo. El `name` solo sirve para el envío de datos.'},
  {t:'fill',q:'Completa el código para enlazar la etiqueta con el campo.',tpl:`<{0} {1}="correo">Email *</{0}>
 <input type="email" {2}="correo" name="correo">`,answers:[['label'],['for'],['id']]},
- {t:'bugs',q:'🔎 Encuentra los **2 errores** de este fragmento (clic en las líneas que fallen).',lines:[
+ {t:'bugs',q:'Encuentra los **2 errores** de este fragmento (clic en las líneas que fallen).',lines:[
   '<label for="telefono">Teléfono</label>',
   ['<input type="tel" id="tel" name="telefono">','El `for` del label es “telefono” pero el `id` del input es “tel”: no están enlazados.'],
   '<label for="ciudad">Ciudad</label>',
@@ -499,7 +491,7 @@ const LEVELS=[
  {t:'quiz',fixed:true,q:'Verdadero o falso: dos elementos de la misma página pueden tener el mismo `id`.',options:['Verdadero','Falso'],answer:1,why:'Falso. El `id` debe ser único; si se repite, el `for` del label no sabrá a cuál apuntar.'},
 ]},
 /* ---------- 3 ---------- */
-{id:'input',icon:'⌨️',title:'Tipos de <input>',desc:'text, email, tel, date, number, password… el atributo type.',steps:[
+{id:'input',icon:'<input>',title:'Tipos de <input>',desc:'text, email, tel, date, number, password… el atributo type.',steps:[
  {t:'learn',title:'<input>: el camaleón de los formularios',blocks:[
   ['p','`<input>` crea un campo. Lo que hace depende de su atributo **`type`**. Es un elemento **vacío**: no lleva etiqueta de cierre.'],
   ['code',`<input type="text"     name="nombre">
@@ -529,7 +521,7 @@ const LEVELS=[
  {t:'quiz',q:'¿Cómo se cierra un `<input>`?',options:['No se cierra: es un elemento vacío','Con `</input>`','Con `</form>` justo detrás','Con `<end>`'],answer:0,why:'`<input>` no tiene contenido, así que no necesita etiqueta de cierre.'},
 ]},
 /* ---------- 4 ---------- */
-{id:'attrs',icon:'🎛️',title:'Atributos de los campos',desc:'required, placeholder, value, min, max, maxlength, readonly…',steps:[
+{id:'attrs',icon:'required',title:'Atributos de los campos',desc:'required, placeholder, value, min, max, maxlength, readonly…',steps:[
  {t:'learn',title:'Atributos que ayudan al usuario',blocks:[
   ['code',`<input type="text" name="ciudad" placeholder="Ej: Quito">
 <input type="text" name="pais" value="Ecuador">
@@ -554,7 +546,7 @@ const LEVELS=[
  {t:'quiz',q:'En la práctica los campos con asterisco (*) son obligatorios. ¿Qué atributo les pondrías?',options:['`required`','`mandatory`','`needed`','`important`'],answer:0,why:'`required` es un atributo booleano: basta con escribirlo, sin valor.'},
  {t:'quiz',q:'¿Cuál es la diferencia entre `readonly` y `disabled`?',options:['`readonly` se envía con el formulario; `disabled` no','Son idénticos','`disabled` se envía; `readonly` no','`readonly` oculta el campo'],answer:0,why:'Ambos impiden editar, pero solo `readonly` incluye el valor en el envío.'},
  {t:'fill',q:'Un campo de número de adultos: de 1 a 10 y obligatorio.',tpl:`<input type="number" name="adultos" {0}="1" {1}="10" {2}>`,answers:[['min'],['max'],['required']]},
- {t:'bugs',q:'🔎 Hay **3 errores** de atributos. Márcalos.',lines:[
+ {t:'bugs',q:'Hay **3 errores** de atributos. Márcalos.',lines:[
   '<input type="text" name="nombre" placeholder="Tu nombre" required>',
   ['<input type="number" name="adultos" min="10" max="1">','`min` es mayor que `max`: ningún valor sería válido.'],
   ['<input type="email" name="email" maxlenght="50">','`maxlenght` está mal escrito: el atributo es `maxlength`.'],
@@ -562,7 +554,7 @@ const LEVELS=[
   ['<input type="text" name="pais" disable>','`disable` no existe: el atributo correcto es `disabled`.']]},
 ]},
 /* ---------- 5 ---------- */
-{id:'select',icon:'📋',title:'Listas desplegables',desc:'select, option, optgroup, value, selected.',steps:[
+{id:'select',icon:'<select>',title:'Listas desplegables',desc:'select, option, optgroup, value, selected.',steps:[
  {t:'learn',title:'<select> y <option>',blocks:[
   ['code',`<label for="destino">Destino *</label>
 <select id="destino" name="destino" required>
@@ -594,7 +586,7 @@ const LEVELS=[
 </select>`,true],
   ['p','`<optgroup label="…">` agrupa opciones. `multiple` permite elegir varias (Ctrl/Cmd + clic) y `size` indica cuántas filas se ven.'],
  ]},
- {t:'order',q:'🧩 Ordena las líneas para construir la lista “Número de adultos”.',lines:[
+ {t:'order',q:'Ordena las líneas para construir la lista “Número de adultos”.',lines:[
   '<select id="adultos" name="adultos" required>',
   '  <option value="">Seleccionar adultos</option>',
   '  <option value="1">1 adulto</option>',
@@ -609,7 +601,7 @@ const LEVELS=[
  {t:'quiz',q:'¿Qué atributo permite elegir **varias** opciones en un `<select>`?',options:['`multiple`','`many`','`checkbox`','`several`'],answer:0,why:'`<select multiple>` convierte la lista en una de selección múltiple.'},
 ]},
 /* ---------- 6 ---------- */
-{id:'choice',icon:'☑️',title:'Checkbox y radio',desc:'Elegir una o varias opciones; agrupar con name.',steps:[
+{id:'choice',icon:'radio',title:'Checkbox y radio',desc:'Elegir una o varias opciones; agrupar con name.',steps:[
  {t:'learn',title:'Checkbox: varias opciones',blocks:[
   ['code',`<input type="checkbox" id="flex" name="flexible" value="si">
 <label for="flex">Soy flexible con la fecha</label>
@@ -634,7 +626,7 @@ const LEVELS=[
  {t:'sort',q:'¿Radio o checkbox? Clasifica cada situación.',cats:['radio','checkbox'],items:[
   ['Tipo de acomodación: 5, 4 o 3 estrellas (solo una)',0],['Actividades: cruceros, tours… (varias posibles)',1],['Aceptar los términos de uso',1],['Rango de edad de los viajeros (pueden ser de varios)',1],['Método de pago (solo uno)',0],['Género: hombre / mujer / otro (solo uno)',0]]},
  {t:'quiz',q:'Para que tres radios formen **un grupo** (solo uno marcable), hay que…',options:['Darles el mismo `name`','Darles el mismo `id`','Darles el mismo `value`','Meterlos en un `<p>`'],answer:0,why:'El `name` común es lo que agrupa los radios. El `value` y el `id` deben ser distintos.'},
- {t:'bugs',q:'🔎 Este grupo de radios tiene **2 errores**. Márcalos.',lines:[
+ {t:'bugs',q:'Este grupo de radios tiene **2 errores**. Márcalos.',lines:[
   '<input type="radio" id="e5" name="estrellas" value="5">',
   ['<input type="radio" id="e4" name="estrella" value="4">','El `name` es “estrella” (sin s): este radio no pertenece al grupo y se podrían marcar dos a la vez.'],
   ['<input type="radio" id="e3" name="estrellas" value="4">','El `value` está repetido (4): debería ser 3 para distinguirlo del anterior.'],
@@ -644,7 +636,7 @@ const LEVELS=[
  {t:'quiz',q:'¿Qué se envía de un checkbox que el usuario **no** ha marcado?',options:['Nada: el campo no viaja en el envío','Un valor vacío','El texto “false”','El `id` del checkbox'],answer:0,why:'Solo los checkbox marcados se incluyen en los datos enviados.'},
 ]},
 /* ---------- 7 ---------- */
-{id:'text',icon:'🔘',title:'Textarea y botones',desc:'textarea, submit, reset y button.',steps:[
+{id:'text',icon:'<textarea>',title:'Textarea y botones',desc:'textarea, submit, reset y button.',steps:[
  {t:'learn',title:'<textarea>: texto largo',blocks:[
   ['code',`<label for="viaje">¿Cuál es el viaje que quisieras?</label>
 <textarea id="viaje" name="viaje" rows="5" cols="40" placeholder="Cuéntanos…"></textarea>`,true],
@@ -671,7 +663,7 @@ const LEVELS=[
  {t:'quiz',q:'¿Qué ventaja tiene `<button>` frente a `<input type="submit">`?',options:['Admite contenido HTML dentro (iconos, negritas, imágenes)','Envía más rápido','Valida el formulario mejor','Ninguna: `<input>` admite más cosas'],answer:0,why:'`<button>` es un contenedor, por eso puede llevar HTML en su interior.'},
 ]},
 /* ---------- 8 ---------- */
-{id:'struct',icon:'🧱',title:'Estructura y extras',desc:'fieldset, legend, datalist y esqueleto completo.',steps:[
+{id:'struct',icon:'<fieldset>',title:'Estructura y extras',desc:'fieldset, legend, datalist y esqueleto completo.',steps:[
  {t:'learn',title:'fieldset y legend',blocks:[
   ['p','`<fieldset>` agrupa campos relacionados y `<legend>` le pone título. Ideal para grupos de radios o checkbox.'],
   ['code',`<fieldset>
@@ -691,7 +683,7 @@ const LEVELS=[
 </datalist>`,true],
   ['table',[['datalist','Sugerencias mientras se escribe (se enlaza con el atributo `list` = `id`)'],['autocomplete','`on` / `off` en un campo o en todo el `<form>`'],['novalidate','En `<form>`: desactiva la validación del navegador'],['<br>','Salto de línea (elemento vacío)']]],
  ]},
- {t:'order',q:'🧩 Ordena el esqueleto de un formulario completo.',lines:[
+ {t:'order',q:'Ordena el esqueleto de un formulario completo.',lines:[
   '<form action="reservar.php" method="post">',
   '  <label for="nombre">Nombre y apellido *</label>',
   '  <input type="text" id="nombre" name="nombre" required>',
@@ -703,7 +695,7 @@ const LEVELS=[
  {t:'sort',q:'¿Lleva etiqueta de cierre o es un elemento vacío?',cats:['sin cierre','con cierre'],items:[['`<input>`',0],['`<br>`',0],['`<select>`',1],['`<textarea>`',1],['`<label>`',1],['`<option>` (en lista con texto)',1],['`<button>`',1]]},
 ]},
 /* ---------- 9 ---------- */
-{id:'map',icon:'🗺️',title:'Aplícalo a la práctica',desc:'Elige el elemento adecuado para cada campo y crea tu mini formulario.',steps:[
+{id:'map',icon:'práctica',title:'Aplícalo a la práctica',desc:'Elige el elemento adecuado para cada campo y crea tu mini formulario.',steps:[
  {t:'learn',title:'Tu práctica: Reserva de Agencia de Viajes',blocks:[
   ['p','Ya conoces todas las piezas. Ahora piensa en la práctica: un formulario de **reserva de viajes** con destino, fecha, número de adultos, edades, tipo de viaje, actividades, acomodación, servicios, comentarios y datos personales.'],
   ['p','Antes de empezar a escribir, **decide qué elemento** necesita cada campo: ¿lista?, ¿radio?, ¿checkbox?, ¿texto largo? Es lo que vas a practicar en estas pantallas.'],
@@ -711,7 +703,7 @@ const LEVELS=[
  ]},
  {t:'match',q:'Une cada campo de la práctica con el elemento HTML adecuado.',pairs:[['Destino (lista de ciudades)','`<select>`'],['Fecha de salida (dd/mm/aaaa)','`input type="date"`'],['Soy flexible con la fecha','`input type="checkbox"`'],['Tipo de acomodación (5, 4 o 3 estrellas)','`input type="radio"`'],['¿Cuál es el viaje que quisieras?','`<textarea>`'],['Email','`input type="email"`'],['Teléfono','`input type="tel"`'],['Enviar / limpiar','`submit` y `reset`']]},
  {t:'quiz',multi:true,q:'En la práctica, ¿qué campos llevan asterisco (*) y por tanto son **obligatorios**?',options:['Destino','Fecha de salida','Número de adultos','Edad adultos','Tipo de acomodación','Nombre y apellido','Email','Teléfono','Ciudad','Estoy de acuerdo con los términos'],answer:[0,2,4,5,6,9],why:'Destino, Número de adultos, Tipo de acomodación, Nombre, Email y Términos llevan `required`.'},
- {t:'bugs',q:'🔎 Un compañero empezó la práctica con **3 errores**. ¿Los encuentras?',lines:[
+ {t:'bugs',q:'Un compañero empezó la práctica con **3 errores**. ¿Los encuentras?',lines:[
   ['<form action="reserva.php" metod="post">','`metod` está mal escrito: debe ser `method`.'],
   '  <label for="destino">Destino *</label>',
   '  <select id="destino" name="destino" required>',
@@ -725,10 +717,10 @@ const LEVELS=[
   ['  <input type="text" id="nom" name="nombre" required>','El `for` del label es “nombre” pero el `id` es “nom”: no están enlazados.'],
   '  <input type="submit" value="Enviar">',
   '</form>']},
- {t:'lab',q:'🧪 **Laboratorio final:** escribe un mini formulario de reserva que cumpla todos los requisitos de la lista.'},
+ {t:'lab',q:'**Laboratorio final:** escribe un mini formulario de reserva que cumpla todos los requisitos de la lista.'},
 ]},
 /* ---------- 10 ---------- */
-{id:'blitz',icon:'⚡',title:'Reto relámpago',desc:'Preguntas rápidas de todo el temario. ¡Demuestra lo que sabes!',steps:[
+{id:'blitz',icon:'repaso',title:'Reto relámpago',desc:'Preguntas rápidas de todo el temario. A ver cuánto recuerdas.',steps:[
  {t:'quiz',q:'¿Qué etiqueta crea un campo de texto de **varias líneas**?',options:['`<textarea>`','`<input type="multiline">`','`<text>`','`<area>`'],answer:0,why:'`<textarea>` es el campo de texto largo.'},
  {t:'quiz',q:'¿Qué atributo marca un radio o checkbox por defecto?',options:['`checked`','`selected`','`default`','`active`'],answer:0,why:'`checked` es para radio/checkbox; `selected` es para `<option>`.'},
  {t:'quiz',q:'¿Qué atributo marca una `<option>` por defecto?',options:['`selected`','`checked`','`default`','`marked`'],answer:0,why:'`selected` es para opciones de un `<select>`.'},
@@ -762,7 +754,7 @@ const levelMax=L=>10*qCount(L);
 const totalXP=()=>Object.values(save.best).reduce((a,b)=>a+(b||0),0);
 const starsFor=(pts,max)=>{const p=pts/max;return p>=.9?3:p>=.6?2:p>0?1:0};
 const starsHtml=(n,anim)=>`<span class="stars">${[0,1,2].map(i=>`<span class="${i<n?(anim?'spop':''):'off'}" style="animation-delay:${.3+i*.35}s">★</span>`).join('')}</span>`;
-function updXP(){const x=$('#xp');x.textContent='⭐ '+totalXP()+' pts';x.classList.remove('pop');void x.offsetWidth;x.classList.add('pop')}
+function updXP(){const x=$('#xp');x.textContent='Puntos: '+totalXP();x.classList.remove('pop');void x.offsetWidth;x.classList.add('pop')}
 let cur={l:0,i:0,pts:0};
 
 /* ============ vistas ============ */
@@ -773,13 +765,12 @@ function renderHome(){
   updXP();
   const done=LEVELS.filter(L=>(save.best[L.id]||0)>0).length;
   const hero=el('section',{class:'hero'},
-    el('h1',{},'✈️ Domina los formularios HTML'),
-    el('p',{},'Antes de hacer la práctica de la Agencia de Viajes, repasa todas las etiquetas y atributos de los formularios. Cada nivel tiene una mini-lección y retos: emparejar, completar código, ordenar líneas y cazar errores.'),
+    el('h1',{},'Repaso de formularios HTML'),
+    el('p',{},'Antes de hacer la práctica de la agencia de viajes, repasa las etiquetas y atributos de los formularios. Cada nivel tiene una explicación corta y varios ejercicios: emparejar, completar código, ordenar líneas y encontrar errores.'),
     el('div',{class:'name'},
       el('input',{id:'nm',placeholder:'Tu nombre (para el diploma)',value:save.name||'','aria-label':'Tu nombre',oninput:e=>{save.name=e.target.value;persist()}}),
-      el('button',{class:'btn primary',onclick:()=>{const next=LEVELS.findIndex(L=>!(save.best[L.id]>0));startLevel(next<0?0:next)}},done?'▶ Continuar':'▶ ¡Empezar!'))
+      el('button',{class:'btn primary',onclick:()=>{const next=LEVELS.findIndex(L=>!(save.best[L.id]>0));startLevel(next<0?0:next)}},done?'Continuar':'Empezar'))
   );
-  hero.insertAdjacentHTML('beforeend',HERO_ART);
   const grid=el('div',{class:'grid'});
   LEVELS.forEach((L,i)=>{
     const b=save.best[L.id]||0,max=levelMax(L);
@@ -792,8 +783,8 @@ function renderHome(){
     ));
   });
   const extra=el('div',{class:'row',style:'margin-top:20px'},
-    el('button',{class:'btn',onclick:renderCheat},'📖 Abrir la chuleta de etiquetas'),
-    el('button',{class:'btn',onclick:()=>{if(confirm('¿Borrar todo tu progreso?')){save.best={};persist();renderHome()}}},'🗑️ Reiniciar progreso'));
+    el('button',{class:'btn',onclick:renderCheat},'Abrir la chuleta de etiquetas'),
+    el('button',{class:'btn',onclick:()=>{if(confirm('¿Borrar todo tu progreso?')){save.best={};persist();renderHome()}}},'Borrar mi progreso'));
   const wrap=el('div',{},hero,routeMap(),grid,extra);
   if(done===LEVELS.length) wrap.append(diploma());
   view(wrap);
@@ -809,10 +800,10 @@ function routeMap(){
   const n=LEVELS.length,done=LEVELS.map(L=>(save.best[L.id]||0)>0);
   const idx=done.every(Boolean)?n-1:done.indexOf(false);
   const pos=i=>(i/(n-1)*100)+'%';
-  const rf=el('div',{class:'rf'}),pl=el('div',{class:'rplane'},el('span',{},'✈️'));
+  const rf=el('div',{class:'rf'}),pl=el('div',{class:'rplane'},el('span',{},'▼'));
   const route=el('div',{class:'route'},el('div',{class:'rl'}),rf);
   LEVELS.forEach((L,i)=>{
-    const st=el('button',{class:'stop'+(done[i]?' done':'')+(i===idx&&!done[i]?' now':''),style:'left:'+pos(i),title:L.title,'aria-label':'Nivel '+(i+1)+': '+L.title,onclick:()=>startLevel(i)},L.icon,el('span',{class:'n'},done[i]?'⭐'.repeat(Math.max(1,starsFor(save.best[L.id],levelMax(L)))):'Nivel '+(i+1)));
+    const st=el('button',{class:'stop'+(done[i]?' done':'')+(i===idx&&!done[i]?' now':''),style:'left:'+pos(i),title:L.title,'aria-label':'Nivel '+(i+1)+': '+L.title,onclick:()=>startLevel(i)},String(i+1),el('span',{class:'n'},done[i]?'★'.repeat(Math.max(1,starsFor(save.best[L.id],levelMax(L)))):'Nivel '+(i+1)));
     route.append(st);
   });
   route.append(pl);
@@ -821,16 +812,15 @@ function routeMap(){
 }
 function diploma(){
   return el('div',{class:'diploma'},
-    el('div',{style:'font-size:3rem'},'🏆'),
-    el('h2',{},'Diploma de Formularios HTML'),
+        el('h2',{},'Diploma de Formularios HTML'),
     el('p',{},'Se concede a'),
     el('div',{class:'nm'},save.name||'_______________'),
-    el('p',{},'por completar los '+LEVELS.length+' niveles con '+totalXP()+' puntos. ¡Ya estás listo para la práctica!'),
-    el('button',{class:'btn primary',onclick:()=>window.print()},'🖨️ Imprimir diploma'));
+    el('p',{},'por completar los '+LEVELS.length+' niveles con '+totalXP()+' puntos. Ya puedes hacer la práctica.'),
+    el('button',{class:'btn primary',onclick:()=>window.print()},'Imprimir diploma'));
 }
 
 function renderCheat(){
-  const wrap=el('div',{},el('h1',{},'📖 Chuleta de formularios'),el('p',{class:'muted'},'Tenla a mano mientras haces la práctica.'));
+  const wrap=el('div',{},el('h1',{},'Chuleta de formularios'),el('p',{class:'muted'},'Tenla a mano mientras haces la práctica.'));
   const g=el('div',{class:'cheat'});
   CHEAT.forEach(([t,rows])=>{
     const tb=el('table',{class:'t'});
@@ -850,7 +840,7 @@ function renderStep(){
   const body=el('div'),foot=el('div',{class:'foot'}),fbBox=el('div'),extra=el('span',{class:'row'}),prim=el('span'),mas=makeMascot();
   foot.append(mas.el,el('span',{class:'row',style:'margin-left:auto'},extra,prim));
   card.append(
-    el('div',{class:'meta'},el('span',{},`${L.icon} Nivel ${cur.l+1} · ${L.title}`),el('span',{},`Pantalla ${cur.i+1} de ${L.steps.length} · ${cur.pts} pts`)),
+    el('div',{class:'meta'},el('span',{},`Nivel ${cur.l+1} · ${L.title}`),el('span',{},`Pantalla ${cur.i+1} de ${L.steps.length} · ${cur.pts} pts`)),
     el('div',{class:'prog'},el('i',{style:`width:${pct}%`})),
     body,fbBox,foot);
   const api={
@@ -864,7 +854,7 @@ function renderStep(){
       fbBox.innerHTML='';if(html)fbBox.append(el('div',{class:'fb '+kind,html}));
       if(kind==='ko')api.oops(true);
       else if(kind==='ok'){SFX.ok();mas.say('happy',pick(MSG.ok),true);card.classList.remove('good')}
-      else if(kind==='info'&&html)mas.say('think','Mmm… ¡mira la pista! 💡');
+      else if(kind==='info'&&html)mas.say('think','Mira la pista.');
     },
     oops(quiet){
       SFX.ko();setStreak(0);mas.say('sad',pick(MSG.ko));
@@ -876,8 +866,7 @@ function renderStep(){
       cur.pts+=p;
       if(!revealed&&attempts<=1)setStreak(streak+1);else if(revealed)setStreak(0);
       const r=fbBox.getBoundingClientRect(),cx=r.left+Math.min(r.width,400)/2,cy=Math.max(80,Math.min(r.top,innerHeight-60));
-      if(p>=6)burst(cx,cy);
-      if(p>0)floatText(cx-20,cy,'+'+p+(streak>=3?' 🔥':''));
+      if(p>0)floatText(cx-20,cy,'+'+p);
       if(streak>=3&&!revealed&&attempts<=1)mas.say('happy',MSG.streak.replace('{n}',streak),true);
       $('.meta span:last-child',card).textContent=`Pantalla ${cur.i+1} de ${L.steps.length} · ${cur.pts} pts`;
       extra.innerHTML='';
@@ -895,18 +884,18 @@ const KIND={quiz:'Pregunta',match:'Emparejar',sort:'Clasificar',fill:'Completa e
 function finishLevel(){
   const L=LEVELS[cur.l],max=levelMax(L),st=starsFor(cur.pts,max);
   save.best[L.id]=Math.max(save.best[L.id]||0,cur.pts);persist();updXP();
-  SFX.win();if(st>=2)confetti();
-  const msg=st===3?'¡Perfecto! Dominas este tema.':st===2?'¡Muy bien! Repasa los fallos si quieres las 3 estrellas.':'Has avanzado, pero conviene repetir el nivel.';
+  SFX.win();
+  const msg=st===3?'Muy bien, tienes este tema dominado.':st===2?'Bien. Repasa los fallos si quieres las 3 estrellas.':'Has avanzado, pero conviene repetir el nivel.';
   const allDone=LEVELS.every(l=>save.best[l.id]>0);
   const card=el('section',{class:'card res'},
-    el('div',{class:'big'},L.icon),
+    el('div',{class:'ic',style:'display:inline-block;font:700 1rem ui-monospace,monospace;background:var(--brand-l);color:var(--brand-d);padding:3px 10px;border-radius:5px;margin-bottom:8px'},L.icon),
     el('h2',{},`Nivel ${cur.l+1} completado`),
     el('div',{html:starsHtml(st,true)}),
     el('p',{},`${cur.pts} / ${max} puntos`),
     el('p',{class:'muted'},msg),
     el('div',{class:'row',style:'justify-content:center;margin-top:14px'},
       el('button',{class:'btn',onclick:()=>startLevel(cur.l)},'↻ Repetir'),
-      el('button',{class:'btn',onclick:renderHome},'🏠 Inicio'),
+      el('button',{class:'btn',onclick:renderHome},'Inicio'),
       cur.l<LEVELS.length-1?el('button',{class:'btn primary',onclick:()=>startLevel(cur.l+1)},'Siguiente nivel →'):null));
   if(allDone){card.append(diploma());confetti(70)}
   view(card);
@@ -927,7 +916,7 @@ R.learn=(s,api)=>{
     else if(k==='code'){
       if(c){
         const demo=el('div',{class:'demo',html:c===true?a:c});
-        demo.addEventListener('submit',e=>{e.preventDefault();toast('✅ En la demo no se envía nada, pero la validación funciona')});
+        demo.addEventListener('submit',e=>{e.preventDefault();toast('En la demo no se envía nada, pero la validación funciona')});
         b.append(el('div',{class:'demo-wrap'},codeBlock(a),demo));
       }else b.append(codeBlock(a));
     }
@@ -961,16 +950,16 @@ R.quiz=(s,api)=>{
       finished=true;
       Object.values(btns).forEach(x=>{x.classList.remove('sel');x.classList.add('locked')});
       ans.forEach(a=>btns[a].classList.add('ok'));
-      api.fb('ok','✅ <strong>¡Correcto!</strong> '+md(s.why));
+      api.fb('ok','<strong>Correcto.</strong> '+md(s.why));
       api.complete(attempts,false);
     }else if(attempts>=2){
       finished=true;
       Object.entries(btns).forEach(([k,x])=>{x.classList.remove('sel');x.classList.add('locked');if(ans.has(+k))x.classList.add('ok')});
-      api.fb('ko','❌ No era esa. La respuesta correcta está marcada en verde. '+md(s.why));
+      api.fb('ko','No era esa. La correcta está marcada en verde. '+md(s.why));
       api.complete(attempts,true);
     }else{
       sel.forEach(x=>{btns[x].classList.remove('sel');btns[x].classList.add('ko')});sel.clear();
-      api.fb('ko','❌ Casi… inténtalo otra vez. '+(s.hint?'💡 '+md(s.hint):''));
+      api.fb('ko','Casi, prueba otra vez. '+(s.hint?'Pista: '+md(s.hint):''));
       check.disabled=true;
     }
   },true);
@@ -994,7 +983,7 @@ R.match=(s,api)=>{
       if(selL===i){
         SFX.tap();lb[i].classList.remove('sel');lb[i].classList.add('ok');r.classList.add('ok');selL=null;done++;
         if(done===s.pairs.length){
-          api.fb('ok','✅ <strong>¡Todas las parejas correctas!</strong>'+(mistakes?` (${mistakes} fallo${mistakes>1?'s':''})`:''));
+          api.fb('ok','<strong>Todas las parejas correctas.</strong>'+(mistakes?` (${mistakes} fallo${mistakes>1?'s':''})`:''));
           api.complete(mistakes===0?1:mistakes<=2?2:3,false);
         }
       }else{
@@ -1015,9 +1004,9 @@ R.sort=(s,api)=>{
       if(row.classList.contains('ok'))return;
       if(ci===cat){
         SFX.tap();row.classList.add('ok');row.querySelectorAll('button').forEach(x=>x.disabled=true);
-        row.append(el('strong',{style:'grid-column:1/-1;color:var(--ok)'},'✔ '+s.cats[cat]));
+        row.append(el('strong',{style:'grid-column:1/-1;color:var(--ok)'},'Correcto: '+s.cats[cat]));
         if(++done===s.items.length){
-          api.fb('ok','✅ <strong>¡Todo clasificado!</strong>'+(mistakes?` (${mistakes} fallo${mistakes>1?'s':''})`:''));
+          api.fb('ok','<strong>Todo clasificado.</strong>'+(mistakes?` (${mistakes} fallo${mistakes>1?'s':''})`:''));
           api.complete(mistakes===0?1:mistakes<=2?2:3,false);
         }
       }else{mistakes++;api.oops();row.classList.remove('ko');void row.offsetWidth;row.classList.add('ko')}
@@ -1038,7 +1027,7 @@ R.fill=(s,api)=>{
     inp.addEventListener('input',()=>{(inputs[n]||[]).forEach(o=>{if(o!==inp)o.value=inp.value;o.classList.remove('ok','ko')});btn.disabled=Object.values(inputs).some(a=>!a[0].value.trim())});
     (inputs[n]=inputs[n]||[]).push(inp);box.append(inp);
   });
-  api.addBtn('💡 Pista',()=>{hinted=true;Object.entries(inputs).forEach(([n,a])=>a.forEach(i=>i.placeholder=s.answers[n][0][0]+'…'));api.fb('info','💡 Cada hueco empieza por la letra que ves en gris.')});
+  api.addBtn('Pista',()=>{hinted=true;Object.entries(inputs).forEach(([n,a])=>a.forEach(i=>i.placeholder=s.answers[n][0][0]+'…'));api.fb('info','Cada hueco empieza por la letra que ves en gris.')});
   const btn=api.setBtn('Comprobar',()=>{
     attempts++;let all=true;
     Object.entries(inputs).forEach(([n,a])=>{
@@ -1047,14 +1036,14 @@ R.fill=(s,api)=>{
       if(!ok)all=false;
     });
     if(all){
-      api.fb('ok','✅ <strong>¡Perfecto!</strong> El código está completo.');
+      api.fb('ok','<strong>Bien.</strong> El código está completo.');
       Object.values(inputs).flat().forEach(i=>i.disabled=true);
       api.complete(attempts,false);
     }else if(attempts>=3){
       Object.entries(inputs).forEach(([n,a])=>a.forEach(i=>{i.value=s.answers[n][0];i.disabled=true;i.classList.remove('ko');i.classList.add('ok')}));
-      api.fb('ko','❌ Te enseño la solución para que la estudies. Fíjate bien en cada hueco.');
+      api.fb('ko','Aquí tienes la solución para que la estudies.');
       api.complete(attempts,true);
-    }else api.fb('ko','❌ Algún hueco no es correcto (en rojo). Revisa y vuelve a intentarlo. Intento '+attempts+' de 3.');
+    }else api.fb('ko','Algún hueco está mal (en rojo). Revísalo y prueba otra vez. Intento '+attempts+' de 3.');
   },true);
 };
 
@@ -1075,9 +1064,9 @@ R.order=(s,api)=>{
   const btn=api.setBtn('Comprobar',()=>{
     attempts++;
     const ok=placed.every((v,i)=>v===i);
-    if(ok){finished=true;draw(true);api.fb('ok','✅ <strong>¡Orden perfecto!</strong> Observa cómo cada etiqueta de apertura tiene su cierre y cómo se anidan.');api.complete(attempts,false)}
-    else if(attempts>=3){finished=true;placed=s.lines.map((_,i)=>i);pool=[];draw(true);api.fb('ko','❌ Esta es la solución correcta. Estúdiala: ¡la estructura importa!');api.complete(attempts,true)}
-    else{draw(true);api.fb('ko',`❌ Hay líneas fuera de sitio (en rojo). Haz clic en ellas para recolocarlas. Intento ${attempts} de 3.`)}
+    if(ok){finished=true;draw(true);api.fb('ok','<strong>Orden correcto.</strong> Fíjate en cómo cada etiqueta de apertura tiene su cierre y cómo se anidan.');api.complete(attempts,false)}
+    else if(attempts>=3){finished=true;placed=s.lines.map((_,i)=>i);pool=[];draw(true);api.fb('ko','Esta es la solución correcta. Estúdiala con calma.');api.complete(attempts,true)}
+    else{draw(true);api.fb('ko',`Hay líneas fuera de sitio (en rojo). Haz clic en ellas para recolocarlas. Intento ${attempts} de 3.`)}
   },true);
   draw();
 };
@@ -1099,13 +1088,13 @@ R.bugs=(s,api)=>{
     const hits=lines.filter((l,i)=>l.bug&&sel.has(i)).length,wrong=[...sel].filter(i=>!lines[i].bug).length;
     if(hits===total&&wrong===0){
       finished=true;rows.forEach((r,i)=>{r.classList.remove('sel');if(lines[i].bug)r.classList.add('ok')});
-      api.fb('ok','✅ <strong>¡Todos los errores encontrados!</strong>'+explain());api.complete(attempts,false);
+      api.fb('ok','<strong>Has encontrado todos los errores.</strong>'+explain());api.complete(attempts,false);
     }else if(attempts>=3){
       finished=true;rows.forEach((r,i)=>{r.classList.remove('sel');if(lines[i].bug)r.classList.add('ok');else if(sel.has(i))r.classList.add('ko')});
-      api.fb('ko','❌ Estos eran los errores:'+explain());api.complete(attempts,true);
+      api.fb('ko','Estos eran los errores:'+explain());api.complete(attempts,true);
     }else{
       rows.forEach((r,i)=>{if(sel.has(i)&&!lines[i].bug){r.classList.remove('sel');r.classList.add('ko');sel.delete(i)}});
-      api.fb('ko',`❌ Has encontrado ${hits} de ${total} errores y ${wrong} línea${wrong===1?'':'s'} marcada${wrong===1?'':'s'} estaba${wrong===1?'':'n'} bien (las quito). Sigue buscando. Intento ${attempts} de 3.`);
+      api.fb('ko',`Has encontrado ${hits} de ${total} errores y ${wrong} línea${wrong===1?'':'s'} marcada${wrong===1?'':'s'} estaba${wrong===1?'':'n'} bien (las quito). Sigue buscando. Intento ${attempts} de 3.`);
     }
   },true);
 };
@@ -1173,18 +1162,18 @@ R.lab=(s,api)=>{
   ta.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const p=ta.selectionStart;ta.setRangeText('  ',p,ta.selectionEnd,'end')}});
   b.append(el('div',{class:'lab'},ta,pv));
   const list=el('ul',{class:'checks'});b.append(el('h3',{style:'margin-top:16px'},'Requisitos'),list);
-  const items=LAB_CHECKS.map(([txt])=>{const li=el('li',{},el('span',{},'⬜'),el('span',{html:md(txt)}));list.append(li);return li});
+  const items=LAB_CHECKS.map(([txt])=>{const li=el('li',{},el('span',{},'○'),el('span',{html:md(txt)}));list.append(li);return li});
   let best=0,extraAdded=false;
-  api.addBtn('👀 Ver solución de ejemplo',()=>{if(confirm('Esto reemplazará tu código por un ejemplo. ¿Seguro?')){ta.value=LAB_SOLUTION;upd()}});
+  api.addBtn('Ver una solución de ejemplo',()=>{if(confirm('Esto reemplazará tu código por un ejemplo. ¿Seguro?')){ta.value=LAB_SOLUTION;upd()}});
   const finish=()=>api.complete(1,false,Math.round(10*best/LAB_CHECKS.length));
   api.setBtn('Comprobar',()=>{
     const d=new DOMParser().parseFromString(ta.value,'text/html');
     let n=0;
     LAB_CHECKS.forEach(([,fn],i)=>{let ok=false;try{ok=!!fn(d)}catch(e){}
-      items[i].className=ok?'ok':'ko';items[i].firstChild.textContent=ok?'✅':'❌';if(ok)n++});
+      items[i].className=ok?'ok':'ko';items[i].firstChild.textContent=ok?'✓':'✗';if(ok)n++});
     best=Math.max(best,n);
-    if(n===LAB_CHECKS.length){api.fb('ok','🎉 <strong>¡Todos los requisitos cumplidos!</strong> Ya puedes afrontar la práctica completa.');confetti(50);finish()}
-    else{api.fb('info',`Llevas ${n} de ${LAB_CHECKS.length} requisitos. Corrige los marcados con ❌ y vuelve a comprobar.`);
+    if(n===LAB_CHECKS.length){api.fb('ok','<strong>Cumples todos los requisitos.</strong> Ya puedes afrontar la práctica completa.');finish()}
+    else{api.fb('info',`Llevas ${n} de ${LAB_CHECKS.length} requisitos. Corrige los marcados con ✗ y vuelve a comprobar.`);
       if(!extraAdded){extraAdded=true;api.addBtn('Terminar así →',finish)}}
   });
   upd();
@@ -1193,8 +1182,8 @@ R.lab=(s,api)=>{
 /* ============ arranque ============ */
 $('#goHome').onclick=$('#goHome2').onclick=renderHome;
 $('#goCheat').onclick=renderCheat;
-const sb=$('#snd');sb.textContent=snd?'🔊':'🔇';
-sb.onclick=()=>{snd=!snd;sb.textContent=snd?'🔊':'🔇';try{localStorage.setItem('fq-snd',snd?'1':'0')}catch(e){};SFX.tap()};
+const sb=$('#snd');sb.textContent=snd?'Sonido: sí':'Sonido: no';
+sb.onclick=()=>{snd=!snd;sb.textContent=snd?'Sonido: sí':'Sonido: no';try{localStorage.setItem('fq-snd',snd?'1':'0')}catch(e){};SFX.tap()};
 renderHome();
 </script>
 </body>
