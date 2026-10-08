@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formularios HTML: el juego</title>
+<style>
+:root{
+  --bg:#f4f6fb; --card:#ffffff; --ink:#1f2437; --muted:#5d6580; --line:#dfe3ef;
+  --brand:#5b4bdb; --brand-d:#4337b3; --brand-l:#ece9ff;
+  --ok:#1f9d57; --ok-l:#e2f6ea; --ko:#d9334a; --ko-l:#fde8eb; --warn:#f2a900; --warn-l:#fff4d6;
+  --code-bg:#1e2236; --code-ink:#e8ecff; --code-tag:#ff9ecb; --code-attr:#ffd479; --code-str:#9be3a4; --code-com:#8a93b8;
+  --shadow:0 6px 22px rgba(30,34,70,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#12141f; --card:#1b1e2e; --ink:#eef0fa; --muted:#a3abc9; --line:#2f3450;
+    --brand:#8a7dff; --brand-d:#a79dff; --brand-l:#262449;
+    --ok:#4cd68a; --ok-l:#183a2a; --ko:#ff6b81; --ko-l:#40202a; --warn:#ffc83d; --warn-l:#3b3216;
+    --code-bg:#0f1120; --shadow:0 6px 22px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--brand-l);color:var(--brand-d);padding:.08em .38em;border-radius:6px;font-size:.92em}
+header.top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.top-in{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:8px;margin-right:auto;cursor:pointer;background:none;border:0;padding:0}
+.logo span.badge{background:var(--brand);color:#fff;border-radius:10px;padding:2px 8px;font-family:ui-monospace,Menlo,monospace;font-size:.9rem}
+.pill{background:var(--warn-l);color:var(--ink);border:1px solid var(--warn);border-radius:999px;padding:4px 12px;font-weight:700;font-size:.9rem}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 16px;font-weight:600;transition:transform .08s,box-shadow .15s,background .15s}
+.btn:hover{box-shadow:var(--shadow)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-d)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn.small{padding:5px 11px;font-size:.88rem;border-radius:9px}
+main{max-width:980px;margin:0 auto;padding:22px 16px 80px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow);animation:pop .25s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:1.9rem;line-height:1.2;margin:.2em 0 .3em}
+h2{font-size:1.4rem;margin:.1em 0 .5em;line-height:1.25}
+h3{margin:.2em 0}
+p{margin:.55em 0}
+.muted{color:var(--muted)}
+/* home */
+.hero{background:linear-gradient(135deg,var(--brand),#a14bdb);color:#fff;border-radius:22px;padding:28px 26px;box-shadow:var(--shadow)}
+.hero h1{margin-top:0}
+.hero p{opacity:.95;max-width:62ch}
+.hero .name{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.hero input{border:0;border-radius:12px;padding:10px 14px;font:inherit;min-width:220px;color:#1f2437}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:20px}
+.lvl{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:6px;transition:transform .12s,box-shadow .15s,border-color .15s}
+.lvl:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--brand)}
+.lvl .ic{font-size:2rem}
+.lvl .num{font-size:.78rem;font-weight:800;letter-spacing:.06em;color:var(--brand);text-transform:uppercase}
+.lvl .t{font-weight:800;font-size:1.05rem}
+.lvl .d{color:var(--muted);font-size:.92rem;flex:1}
+.stars{font-size:1.15rem;letter-spacing:2px;color:var(--warn)}
+.stars .off{opacity:.25}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+/* progress */
+.prog{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),#a14bdb);transition:width .3s}
+.meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);margin-bottom:6px;font-weight:600}
+.kind{display:inline-block;background:var(--brand-l);color:var(--brand-d);font-weight:800;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+.foot{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}
+.fb{margin-top:16px;border-radius:14px;padding:12px 16px;border:1px solid;animation:pop .2s}
+.fb.ok{background:var(--ok-l);border-color:var(--ok)}
+.fb.ko{background:var(--ko-l);border-color:var(--ko)}
+.fb.info{background:var(--warn-l);border-color:var(--warn)}
+.fb ul{margin:.3em 0 0;padding-left:1.2em}
+/* code */
+pre.code{margin:12px 0;background:var(--code-bg);color:var(--code-ink);border-radius:14px;padding:14px 16px;overflow:auto;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;tab-size:2}
+pre.code code{background:none;color:inherit;padding:0;font-size:inherit}
+pre.code .t,.bl .t{color:var(--code-tag)} pre.code .a,.bl .a{color:var(--code-attr)} pre.code .s,.bl .s{color:var(--code-str)} pre.code .c,.bl .c{color:var(--code-com);font-style:italic}
+.demo-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;margin:12px 0}
+@media (max-width:760px){.demo-wrap{grid-template-columns:1fr}}
+.demo-wrap pre.code{margin:0}
+.demo{border:2px dashed var(--brand);border-radius:14px;padding:14px;background:var(--card);position:relative;font-family:"Times New Roman",serif}
+.demo::before{content:"Resultado en el navegador";position:absolute;top:-11px;left:12px;background:var(--card);padding:0 8px;font:700 .72rem system-ui,sans-serif;color:var(--brand);letter-spacing:.04em;text-transform:uppercase}
+.demo label{margin-right:4px}
+.demo p{margin:.5em 0}
+.demo textarea{vertical-align:top}
+.demo fieldset{margin:6px 0}
+table.t{border-collapse:collapse;width:100%;margin:12px 0;font-size:.95rem}
+table.t th,table.t td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.t th{background:var(--brand-l);width:34%;font-weight:700}
+.tip{background:var(--warn-l);border-left:5px solid var(--warn);padding:10px 14px;border-radius:10px;margin:12px 0}
+/* quiz */
+.opts{display:grid;gap:10px;margin-top:12px}
+.opt{text-align:left;border:2px solid var(--line);background:var(--card);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;transition:border-color .12s,background .12s}
+.opt:hover{border-color:var(--brand)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:8px;background:var(--brand-l);color:var(--brand-d);display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.opt.sel{border-color:var(--brand);background:var(--brand-l)}
+.opt.ok{border-color:var(--ok);background:var(--ok-l)}
+.opt.ko{border-color:var(--ko);background:var(--ko-l);animation:shake .35s}
+.opt.locked{pointer-events:none}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+/* match / sort */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;margin-top:12px}
+@media (max-width:620px){.cols{grid-template-columns:1fr 1fr;gap:10px}}
+.chip{border:2px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;text-align:left;transition:all .12s;width:100%}
+.chip:hover{border-color:var(--brand)}
+.chip.sel{border-color:var(--brand);background:var(--brand-l)}
+.chip.ok{border-color:var(--ok);background:var(--ok-l);pointer-events:none}
+.chip.ko{border-color:var(--ko);background:var(--ko-l);animation:shake .35s}
+.col{display:grid;gap:10px;align-content:start}
+.sortrow{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;border:2px solid var(--line);border-radius:12px;padding:8px 10px;margin-top:10px}
+.sortrow.ok{border-color:var(--ok);background:var(--ok-l)}
+.sortrow.ko{animation:shake .35s;border-color:var(--ko)}
+@media (max-width:560px){.sortrow{grid-template-columns:1fr 1fr}.sortrow>span{grid-column:1/-1}}
+/* fill */
+.fill{background:var(--code-bg);color:var(--code-ink);border-radius:14px;padding:14px 16px;font:14px/2.1 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;overflow:auto;margin:12px 0}
+.fill input{font:inherit;background:#fff;color:#1f2437;border:2px solid var(--code-attr);border-radius:6px;padding:0 6px;margin:0 2px;text-align:center;outline:none}
+.fill input:focus{box-shadow:0 0 0 3px rgba(255,212,121,.4)}
+.fill input.ok{border-color:var(--ok);background:#d9f7e5}
+.fill input.ko{border-color:var(--ko);background:#ffe0e5;animation:shake .35s}
+/* order */
+.ord{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+@media (max-width:760px){.ord{grid-template-columns:1fr}}
+.zone{background:var(--bg);border:2px dashed var(--line);border-radius:14px;padding:10px;min-height:120px;display:grid;gap:6px;align-content:start}
+.zone h4{margin:0 0 2px;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.ln{background:var(--code-bg);color:var(--code-ink);border:2px solid transparent;border-radius:10px;padding:6px 10px;text-align:left;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre;overflow:auto}
+.ln:hover{border-color:var(--code-attr)}
+.ln.ok{border-color:var(--ok)} .ln.ko{border-color:var(--ko)}
+/* bugs */
+.bugs{background:var(--code-bg);border-radius:14px;padding:8px;margin:12px 0;display:grid;gap:2px}
+.bl{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;text-align:left;background:transparent;border:2px solid transparent;border-radius:8px;color:var(--code-ink);padding:3px 8px;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;white-space:pre;overflow:auto}
+.bl:hover{background:rgba(255,255,255,.07)}
+.bl .n{color:var(--code-com);text-align:right}
+.bl.sel{border-color:var(--warn);background:rgba(242,169,0,.18)}
+.bl.ok{border-color:var(--ok);background:rgba(76,214,138,.18)}
+.bl.ko{border-color:var(--ko);background:rgba(255,107,129,.2)}
+/* lab */
+.lab{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+@media (max-width:820px){.lab{grid-template-columns:1fr}}
+textarea.ed{width:100%;min-height:340px;resize:vertical;background:var(--code-bg);color:var(--code-ink);border:0;border-radius:14px;padding:14px;font:13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;tab-size:2}
+iframe.pv{width:100%;min-height:340px;height:100%;border:2px dashed var(--brand);border-radius:14px;background:#fff}
+.checks{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:6px}
+.checks li{display:flex;gap:10px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.checks li.ok{background:var(--ok-l);border-color:var(--ok)}
+.checks li.ko{background:var(--ko-l);border-color:var(--ko)}
+/* cheat */
+.cheat{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.cheat .card{padding:16px}
+.cheat table.t th{width:44%}
+/* result */
+.res{text-align:center}
+.res .big{font-size:4rem}
+.res .stars{font-size:2.4rem}
+.diploma{margin:22px auto 6px;max-width:620px;border:6px double var(--brand);border-radius:18px;padding:22px;text-align:center;background:var(--card)}
+.diploma h2{color:var(--brand)}
+.diploma .nm{font-size:1.7rem;font-weight:800;border-bottom:2px solid var(--line);display:inline-block;padding:0 22px 4px;margin:6px 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;z-index:50;font-weight:600;animation:pop .2s}
+.confetti{position:fixed;top:-30px;font-size:1.6rem;z-index:60;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.9}}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+@media print{
+  body *{visibility:hidden}
+  .diploma,.diploma *{visibility:visible}
+  .diploma{position:absolute;left:0;top:0;right:0;margin:20px auto}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <button class="logo" id="goHome" aria-label="Ir al inicio"><span class="badge">&lt;form&gt;</span> Formularios HTML · el juego</button>
+  <span class="pill" id="xp">⭐ 0 pts</span>
+  <button class="btn small" id="goCheat">📖 Chuleta</button>
+  <button class="btn small" id="goHome2">🏠 Inicio</button>
+</div></header>
+<main id="main"></main>
+
+<script>
+/* ============ utilidades ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const md=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+function el(tag,attrs,...kids){
+  const e=document.createElement(tag);
+  for(const k in (attrs||{})){
+    const v=attrs[k];
+    if(k==='class')e.className=v; else if(k==='html')e.innerHTML=v;
+    else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);
+    else if(v!==false&&v!=null)e.setAttribute(k,v===true?'':v);
+  }
+  kids.flat().forEach(c=>{if(c!=null)e.append(c.nodeType?c:document.createTextNode(c))});
+  return e;
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function highlight(src){
+  let h=esc(src);
+  h=h.replace(/(&lt;!--[\s\S]*?--&gt;)/g,'<span class="c">$1</span>');
+  h=h.replace(/(&lt;\/?)([a-zA-Z0-9]+)((?:\s+[^&<>]*?(?:"[^"]*"|[^&<>]*?))*?)(\/?&gt;)/g,(m,a,t,rest,z)=>{
+    rest=rest.replace(/([\w-]+)(=)("[^"]*")?/g,(mm,n,eq,v)=>`<span class="a">${n}</span>${eq}${v?`<span class="s">${v}</span>`:''}`);
+    rest=rest.replace(/(^|\s)(required|checked|selected|disabled|readonly|autofocus|multiple|novalidate)(?=\s|$)/g,'$1<span class="a">$2</span>');
+    return `<span class="t">${a}${t}</span>${rest}<span class="t">${z}</span>`;
+  });
+  return h;
+}
+const codeBlock=src=>el('pre',{class:'code',html:`<code>${highlight(src)}</code>`});
+function toast(msg){const t=el('div',{class:'toast'},msg);document.body.append(t);setTimeout(()=>t.remove(),1800)}
+function confetti(n=40){
+  const em=['🎉','⭐','✨','🧳','✈️','🌴','🎈'];
+  for(let i=0;i<n;i++){
+    const c=el('span',{class:'confetti'},em[i%em.length]);
+    c.style.left=Math.random()*100+'vw';c.style.animationDuration=(1.8+Math.random()*2)+'s';c.style.animationDelay=Math.random()*.6+'s';
+    document.body.append(c);setTimeout(()=>c.remove(),4800);
+  }
+}
+
+/* ============ contenido ============ */
+// Bloques "learn": ['p',texto] ['code',codigo,demo?] ['table',[[a,b]..]] ['tip',texto]
+// demo: true = renderiza el mismo código; string = renderiza ese HTML
+const LEVELS=[
+/* ---------- 1 ---------- */
+{id:'form',icon:'📝',title:'El contenedor <form>',desc:'Qué es un formulario, action, method y name.',steps:[
+ {t:'learn',title:'¿Qué es un formulario?',blocks:[
+  ['p','Un formulario es la forma en que una página web **recoge datos** del usuario: reservas, registros, búsquedas, contacto…'],
+  ['p','Todo formulario vive dentro de la etiqueta `<form>`. Es un **contenedor**: todos los campos que quieras enviar juntos deben estar dentro de ella.'],
+  ['code',`<form action="reservar.php" method="post">
+  <!-- aquí van los campos -->
+</form>`],
+  ['table',[['<form>','Contenedor del formulario (lleva etiqueta de apertura y de cierre)'],['action','Dirección (URL o archivo) que recibirá los datos'],['method','Cómo se envían los datos: get o post']]],
+ ]},
+ {t:'learn',title:'GET vs POST y el atributo name',blocks:[
+  ['table',[['method="get"','Los datos viajan **en la URL** (se ven). Útil para búsquedas. Tamaño limitado.'],['method="post"','Los datos viajan **ocultos** en el cuerpo de la petición. Ideal para reservas, registros y contraseñas.']]],
+  ['code',`https://miagencia.com/reservar.php?destino=quito&adultos=2`],
+  ['p','Esa URL es lo que verías con `get`: cada dato aparece como `nombre=valor`. Ese **nombre** sale del atributo `name` del campo.'],
+  ['tip','⚠️ Un campo **sin `name` no se envía**. El dato se pierde aunque el usuario lo haya escrito.'],
+ ]},
+ {t:'quiz',q:'¿Qué atributo de `<form>` indica **a dónde** se envían los datos?',options:['action','method','name','target'],answer:0,why:'`action` contiene la URL o archivo que procesará el formulario. `method` dice *cómo* se envían.'},
+ {t:'quiz',q:'Vas a enviar una **contraseña**. ¿Qué método es más adecuado?',options:['`method="post"`','`method="get"`','`method="send"`','`method="hidden"`'],answer:0,why:'Con `post` los datos no aparecen en la URL. Con `get` quedarían visibles en la barra de direcciones y en el historial.',hint:'Piensa en cuál de los dos deja los datos visibles en la URL.'},
+ {t:'match',q:'Une cada atributo con su función.',pairs:[['`action`','Dónde se envían los datos'],['`method`','Cómo se envían (get / post)'],['`name`','Nombre con el que viaja cada dato'],['`id`','Identificador único del elemento en la página']]},
+ {t:'quiz',fixed:true,q:'Verdadero o falso: un `<input type="text">` **sin** atributo `name` enviará su valor al servidor.',options:['Verdadero','Falso'],answer:1,why:'Falso. Sin `name` el navegador no incluye el campo en los datos del envío.'},
+]},
+/* ---------- 2 ---------- */
+{id:'label',icon:'🏷️',title:'Etiquetas <label>',desc:'Cómo describir cada campo y enlazarlo con for / id.',steps:[
+ {t:'learn',title:'<label>: el texto de cada campo',blocks:[
+  ['p','`<label>` es el texto que describe un campo (“Nombre”, “Email”…). Mejora la accesibilidad y hace que, al hacer clic en el texto, el campo reciba el foco.'],
+  ['code',`<label for="nombre">Nombre y apellido *</label>
+<input type="text" id="nombre" name="nombre">`,true],
+  ['p','👆 Prueba: haz clic sobre el texto de la etiqueta en el resultado.'],
+  ['table',[['for','Debe valer **lo mismo que el `id`** del campo al que describe'],['id','Identificador único del campo en la página'],['name','Nombre con el que viaja el dato al enviar el formulario']]],
+ ]},
+ {t:'learn',title:'Dos formas de enlazar',blocks:[
+  ['p','**Forma 1** – `for` + `id` (la más usada, permite separar etiqueta y campo):'],
+  ['code',`<label for="email">Email *</label>
+<input type="email" id="email" name="email">`],
+  ['p','**Forma 2** – envolver el campo dentro del label (no necesita `for` ni `id`):'],
+  ['code',`<label>
+  Teléfono
+  <input type="tel" name="telefono">
+</label>`,true],
+  ['tip','Los `id` deben ser **únicos** en toda la página. Los `name` sí pueden repetirse (por ejemplo, en un grupo de radios).'],
+ ]},
+ {t:'quiz',q:'¿Cómo se enlaza un `<label>` con su `<input>` usando atributos?',options:['El `for` del label es igual al `id` del input','El `for` del label es igual al `name` del input','El `id` del label es igual al `name` del input','No hace falta enlazarlos nunca'],answer:0,why:'`for` apunta al `id` del campo. El `name` solo sirve para el envío de datos.'},
+ {t:'fill',q:'Completa el código para enlazar la etiqueta con el campo.',tpl:`<{0} {1}="correo">Email *</{0}>
+<input type="email" {2}="correo" name="correo">`,answers:[['label'],['for'],['id']]},
+ {t:'bugs',q:'🔎 Encuentra los **2 errores** de este fragmento (clic en las líneas que fallen).',lines:[
+  '<label for="telefono">Teléfono</label>',
+  ['<input type="tel" id="tel" name="telefono">','El `for` del label es “telefono” pero el `id` del input es “tel”: no están enlazados.'],
+  '<label for="ciudad">Ciudad</label>',
+  '<input type="text" id="ciudad" name="ciudad">',
+  ['<label>País de residencia</label>','Este label no tiene `for` ni envuelve al campo: no queda enlazado.'],
+  '<input type="text" id="pais" name="pais">']},
+ {t:'quiz',q:'¿Cuál es la diferencia entre `id` y `name`?',options:['`id` identifica al elemento en la página (CSS, label); `name` es el nombre con el que viaja el dato','Son lo mismo; se puede usar cualquiera','`name` sirve para el CSS e `id` para enviar el dato','`id` solo existe en los `<select>`'],answer:0,why:'`id` = identificación en la página. `name` = etiqueta del dato en el envío.'},
+ {t:'quiz',fixed:true,q:'Verdadero o falso: dos elementos de la misma página pueden tener el mismo `id`.',options:['Verdadero','Falso'],answer:1,why:'Falso. El `id` debe ser único; si se repite, el `for` del label no sabrá a cuál apuntar.'},
+]},
+/* ---------- 3 ---------- */
+{id:'input',icon:'⌨️',title:'Tipos de <input>',desc:'text, email, tel, date, number, password… el atributo type.',steps:[
+ {t:'learn',title:'<input>: el camaleón de los formularios',blocks:[
+  ['p','`<input>` crea un campo. Lo que hace depende de su atributo **`type`**. Es un elemento **vacío**: no lleva etiqueta de cierre.'],
+  ['code',`<input type="text"     name="nombre">
+<input type="email"    name="email">
+<input type="tel"      name="telefono">
+<input type="password" name="clave">
+<input type="number"   name="edad">`,true],
+  ['table',[['text','Texto corto (es el valor por defecto)'],['email','Correo: el navegador valida que tenga @'],['tel','Teléfono: teclado numérico en el móvil'],['password','Oculta lo escrito con puntos'],['number','Solo números (con flechas)']]],
+ ]},
+ {t:'learn',title:'Fechas, colores, archivos…',blocks:[
+  ['code',`<input type="date"  name="salida">
+<input type="time"  name="hora">
+<input type="color" name="color">
+<input type="range" name="volumen" min="0" max="10">
+<input type="url"   name="web">
+<input type="search" name="buscar">
+<input type="file"  name="foto">`,true],
+  ['table',[['date','Selector de fecha (en la práctica: *Fecha de salida*, dd/mm/aaaa)'],['time','Selector de hora'],['color','Selector de color'],['range','Deslizador entre un mínimo y un máximo'],['url','Dirección web'],['search','Campo de búsqueda'],['file','Subir archivos']]],
+ ]},
+ {t:'match',q:'¿Qué `type` usarías en cada caso?',pairs:[['Nombre y apellido','`type="text"`'],['Correo electrónico','`type="email"`'],['Teléfono','`type="tel"`'],['Fecha de salida (dd/mm/aaaa)','`type="date"`'],['Contraseña','`type="password"`'],['Edad (un número)','`type="number"`']]},
+ {t:'fill',q:'Completa los tipos correctos.',tpl:`<label for="salida">Fecha de salida</label>
+<input type="{0}" id="salida" name="salida">
+
+<label for="mail">Email</label>
+<input type="{1}" id="mail" name="mail">`,answers:[['date'],['email']]},
+ {t:'quiz',q:'¿Qué ventaja tiene `type="email"` sobre `type="text"`?',options:['El navegador comprueba que el formato sea de correo y, en móvil, muestra el teclado adecuado','Guarda el correo en el servidor automáticamente','Envía un email al usuario','Ninguna, son idénticos'],answer:0,why:'`email` valida el formato (debe llevar @) y adapta el teclado en móviles.'},
+ {t:'quiz',q:'¿Cómo se cierra un `<input>`?',options:['No se cierra: es un elemento vacío','Con `</input>`','Con `</form>` justo detrás','Con `<end>`'],answer:0,why:'`<input>` no tiene contenido, así que no necesita etiqueta de cierre.'},
+]},
+/* ---------- 4 ---------- */
+{id:'attrs',icon:'🎛️',title:'Atributos de los campos',desc:'required, placeholder, value, min, max, maxlength, readonly…',steps:[
+ {t:'learn',title:'Atributos que ayudan al usuario',blocks:[
+  ['code',`<input type="text" name="ciudad" placeholder="Ej: Quito">
+<input type="text" name="pais" value="Ecuador">
+<input type="text" name="codigo" value="A-123" readonly>
+<input type="text" name="otro" value="Bloqueado" disabled>
+<input type="text" name="buscar" autofocus>`,true],
+  ['table',[['placeholder','Texto gris de ejemplo; desaparece al escribir'],['value','Valor inicial del campo'],['readonly','Se ve y se **envía**, pero no se puede editar'],['disabled','Desactivado: no se edita y **NO se envía**'],['autofocus','El campo recibe el foco al cargar la página'],['autocomplete','`on`/`off`: permite o no sugerencias del navegador']]],
+ ]},
+ {t:'learn',title:'Atributos de validación',blocks:[
+  ['p','El navegador puede **validar sin JavaScript**. Pulsa *Enviar* en la demo dejando campos vacíos o incorrectos:'],
+  ['code',`<form>
+  <input type="text" name="nombre" placeholder="Obligatorio" required><br>
+  <input type="number" name="adultos" min="1" max="10" placeholder="1 a 10"><br>
+  <input type="text" name="clave" minlength="4" maxlength="8" placeholder="4 a 8 letras"><br>
+  <input type="text" name="movil" pattern="[0-9]{9}" title="9 cifras" placeholder="9 cifras"><br>
+  <button type="submit">Enviar</button>
+</form>`,true],
+  ['table',[['required','Campo **obligatorio** (en la práctica, los marcados con *)'],['min / max','Rango permitido en `number`, `date`, `range`…'],['minlength / maxlength','Mínimo y máximo de caracteres'],['pattern','Expresión regular que debe cumplir el texto'],['step','Salto entre valores en `number` o `range`']]],
+ ]},
+ {t:'match',q:'Une cada atributo con su efecto.',pairs:[['`required`','Campo obligatorio'],['`placeholder`','Texto gris de ejemplo'],['`maxlength`','Máximo de caracteres'],['`min` / `max`','Rango de valores permitido'],['`readonly`','Visible y enviado, pero no editable'],['`disabled`','Desactivado y no se envía'],['`value`','Valor inicial']]},
+ {t:'quiz',q:'En la práctica los campos con asterisco (*) son obligatorios. ¿Qué atributo les pondrías?',options:['`required`','`mandatory`','`needed`','`important`'],answer:0,why:'`required` es un atributo booleano: basta con escribirlo, sin valor.'},
+ {t:'quiz',q:'¿Cuál es la diferencia entre `readonly` y `disabled`?',options:['`readonly` se envía con el formulario; `disabled` no','Son idénticos','`disabled` se envía; `readonly` no','`readonly` oculta el campo'],answer:0,why:'Ambos impiden editar, pero solo `readonly` incluye el valor en el envío.'},
+ {t:'fill',q:'Un campo de número de adultos: de 1 a 10 y obligatorio.',tpl:`<input type="number" name="adultos" {0}="1" {1}="10" {2}>`,answers:[['min'],['max'],['required']]},
+ {t:'bugs',q:'🔎 Hay **3 errores** de atributos. Márcalos.',lines:[
+  '<input type="text" name="nombre" placeholder="Tu nombre" required>',
+  ['<input type="number" name="adultos" min="10" max="1">','`min` es mayor que `max`: ningún valor sería válido.'],
+  ['<input type="email" name="email" maxlenght="50">','`maxlenght` está mal escrito: el atributo es `maxlength`.'],
+  '<input type="tel" name="telefono" placeholder="600123456">',
+  ['<input type="text" name="pais" disable>','`disable` no existe: el atributo correcto es `disabled`.']]},
+]},
+/* ---------- 5 ---------- */
+{id:'select',icon:'📋',title:'Listas desplegables',desc:'select, option, optgroup, value, selected.',steps:[
+ {t:'learn',title:'<select> y <option>',blocks:[
+  ['code',`<label for="destino">Destino *</label>
+<select id="destino" name="destino" required>
+  <option value="">Seleccionar ciudad</option>
+  <option value="quito">Quito</option>
+  <option value="guayaquil">Guayaquil</option>
+  <option value="cuenca" selected>Cuenca</option>
+</select>`,true],
+  ['table',[['select','La lista desplegable (lleva `name` e `id`)'],['option','Cada opción de la lista'],['value','Lo que se **envía** (el texto visible puede ser distinto)'],['selected','Opción marcada por defecto'],['disabled','Opción visible pero no elegible']]],
+  ['tip','Truco: una primera opción con `value=""` + `required` en el select **obliga** a elegir una ciudad.'],
+ ]},
+ {t:'learn',title:'optgroup, multiple y disabled',blocks:[
+  ['code',`<select name="viaje">
+  <option value="" disabled selected>Elige un viaje</option>
+  <optgroup label="Islas">
+    <option value="isabela">Isabela</option>
+    <option value="santacruz">Santa Cruz</option>
+  </optgroup>
+  <optgroup label="Costa">
+    <option value="manta">Manta</option>
+  </optgroup>
+</select>
+
+<select name="extras" multiple size="3">
+  <option>Guía</option>
+  <option>Seguro</option>
+  <option>Comidas</option>
+</select>`,true],
+  ['p','`<optgroup label="…">` agrupa opciones. `multiple` permite elegir varias (Ctrl/Cmd + clic) y `size` indica cuántas filas se ven.'],
+ ]},
+ {t:'order',q:'🧩 Ordena las líneas para construir la lista “Número de adultos”.',lines:[
+  '<select id="adultos" name="adultos" required>',
+  '  <option value="">Seleccionar adultos</option>',
+  '  <option value="1">1 adulto</option>',
+  '  <option value="2">2 adultos</option>',
+  '  <option value="3">3 adultos</option>',
+  '</select>']},
+ {t:'quiz',q:'Tenemos `<option value="uio">Quito</option>`. Si el usuario elige Quito, ¿qué valor se envía?',options:['uio','Quito','option','Quito y uio'],answer:0,why:'Se envía el `value`. El texto entre las etiquetas es solo lo que ve el usuario.'},
+ {t:'fill',q:'Completa la lista con las etiquetas y el atributo correctos.',tpl:`<{0} name="destino">
+  <{1} value="gye" {2}>Guayaquil</{1}>
+</{0}>`,answers:[['select'],['option'],['selected']]},
+ {t:'quiz',q:'¿Cómo evitas que el usuario deje elegida la opción “Seleccionar ciudad”?',options:['`required` en el select y `value=""` en esa primera opción','Poniendo `readonly` al select','Con `maxlength="1"`','No se puede hacer en HTML'],answer:0,why:'Con `required`, una opción cuyo `value` es vacío cuenta como “sin elegir” y el navegador avisa.'},
+ {t:'quiz',q:'¿Qué atributo permite elegir **varias** opciones en un `<select>`?',options:['`multiple`','`many`','`checkbox`','`several`'],answer:0,why:'`<select multiple>` convierte la lista en una de selección múltiple.'},
+]},
+/* ---------- 6 ---------- */
+{id:'choice',icon:'☑️',title:'Checkbox y radio',desc:'Elegir una o varias opciones; agrupar con name.',steps:[
+ {t:'learn',title:'Checkbox: varias opciones',blocks:[
+  ['code',`<input type="checkbox" id="flex" name="flexible" value="si">
+<label for="flex">Soy flexible con la fecha</label>
+
+<input type="checkbox" id="ninos" name="ninos" value="si" checked>
+<label for="ninos">Viajamos con niños</label>`,true],
+  ['p','Cada checkbox es **independiente**: se pueden marcar varios. `checked` lo deja marcado por defecto.'],
+  ['tip','Un checkbox **sin marcar no se envía** (el campo ni aparece en los datos).'],
+ ]},
+ {t:'learn',title:'Radio: solo una opción',blocks:[
+  ['code',`<input type="radio" id="e5" name="estrellas" value="5">
+<label for="e5">5 estrellas</label>
+
+<input type="radio" id="e4" name="estrellas" value="4">
+<label for="e4">4 estrellas</label>
+
+<input type="radio" id="e3" name="estrellas" value="3">
+<label for="e3">3 estrellas</label>`,true],
+  ['table',[['name','**Igual** en todos los radios del grupo (así solo se marca uno)'],['value','**Distinto** en cada radio: es lo que se envía'],['id','**Único** en cada radio (para su label)'],['checked','Radio marcado por defecto']]],
+ ]},
+ {t:'sort',q:'¿Radio o checkbox? Clasifica cada situación.',cats:['radio','checkbox'],items:[
+  ['Tipo de acomodación: 5, 4 o 3 estrellas (solo una)',0],['Actividades: cruceros, tours… (varias posibles)',1],['Aceptar los términos de uso',1],['Rango de edad de los viajeros (pueden ser de varios)',1],['Método de pago (solo uno)',0],['Género: hombre / mujer / otro (solo uno)',0]]},
+ {t:'quiz',q:'Para que tres radios formen **un grupo** (solo uno marcable), hay que…',options:['Darles el mismo `name`','Darles el mismo `id`','Darles el mismo `value`','Meterlos en un `<p>`'],answer:0,why:'El `name` común es lo que agrupa los radios. El `value` y el `id` deben ser distintos.'},
+ {t:'bugs',q:'🔎 Este grupo de radios tiene **2 errores**. Márcalos.',lines:[
+  '<input type="radio" id="e5" name="estrellas" value="5">',
+  ['<input type="radio" id="e4" name="estrella" value="4">','El `name` es “estrella” (sin s): este radio no pertenece al grupo y se podrían marcar dos a la vez.'],
+  ['<input type="radio" id="e3" name="estrellas" value="4">','El `value` está repetido (4): debería ser 3 para distinguirlo del anterior.'],
+  '<input type="checkbox" id="guias" name="guias" value="si">']},
+ {t:'fill',q:'Un checkbox marcado por defecto y un radio con su valor.',tpl:`<input type="{0}" id="ninos" name="ninos" {1}>
+<input type="radio" name="est" id="r5" {2}="5">`,answers:[['checkbox'],['checked'],['value']]},
+ {t:'quiz',q:'¿Qué se envía de un checkbox que el usuario **no** ha marcado?',options:['Nada: el campo no viaja en el envío','Un valor vacío','El texto “false”','El `id` del checkbox'],answer:0,why:'Solo los checkbox marcados se incluyen en los datos enviados.'},
+]},
+/* ---------- 7 ---------- */
+{id:'text',icon:'🔘',title:'Textarea y botones',desc:'textarea, submit, reset y button.',steps:[
+ {t:'learn',title:'<textarea>: texto largo',blocks:[
+  ['code',`<label for="viaje">¿Cuál es el viaje que quisieras?</label>
+<textarea id="viaje" name="viaje" rows="5" cols="40" placeholder="Cuéntanos…"></textarea>`,true],
+  ['table',[['rows','Filas visibles (alto)'],['cols','Columnas visibles (ancho)'],['placeholder','Texto de ayuda gris'],['maxlength','Máximo de caracteres']]],
+  ['tip','`<textarea>` **no** es un `input`: lleva etiqueta de apertura y de cierre, y su texto inicial va **entre** ellas (no usa `value`).'],
+ ]},
+ {t:'learn',title:'Botones: enviar y limpiar',blocks:[
+  ['code',`<form>
+  <input type="text" name="nombre" placeholder="Escribe algo">
+  <button type="submit">Enviar</button>
+  <button type="reset">Limpiar</button>
+</form>
+
+<!-- Versión con input -->
+<input type="submit" value="Enviar">
+<input type="reset"  value="limpiar">`,true],
+  ['table',[['type="submit"','Envía el formulario'],['type="reset"','Restaura los valores iniciales de los campos'],['type="button"','No hace nada por sí solo (se usa con JavaScript)']]],
+  ['tip','Un `<button>` dentro de un formulario **sin `type`** actúa como `submit`. Con `<input>` el texto va en `value`; con `<button>` va entre las etiquetas.'],
+ ]},
+ {t:'quiz',q:'¿Cómo se pone un texto inicial dentro de un `<textarea>`?',options:['Entre la etiqueta de apertura y la de cierre','Con el atributo `value`','Con el atributo `text`','Con `placeholder` (aparece como texto real)'],answer:0,why:'`placeholder` solo es una pista gris. El contenido real va entre `<textarea>` y `</textarea>`.'},
+ {t:'fill',q:'Un área de texto de 4 filas y 30 columnas.',tpl:`<{0} name="mensaje" {1}="4" {2}="30"></{0}>`,answers:[['textarea'],['rows'],['cols']]},
+ {t:'match',q:'Une cada botón con su función.',pairs:[['`type="submit"`','Envía el formulario'],['`type="reset"`','Vuelve a los valores iniciales'],['`type="button"`','No hace nada sin JavaScript'],['`value` (en un input submit)','Texto que muestra el botón']]},
+ {t:'quiz',fixed:true,q:'Verdadero o falso: el botón `reset` elimina los datos que ya se habían enviado al servidor.',options:['Verdadero','Falso'],answer:1,why:'Falso. Solo restaura los campos en pantalla; lo ya enviado no se puede “deshacer”.'},
+ {t:'quiz',q:'¿Qué ventaja tiene `<button>` frente a `<input type="submit">`?',options:['Admite contenido HTML dentro (iconos, negritas, imágenes)','Envía más rápido','Valida el formulario mejor','Ninguna: `<input>` admite más cosas'],answer:0,why:'`<button>` es un contenedor, por eso puede llevar HTML en su interior.'},
+]},
+/* ---------- 8 ---------- */
+{id:'struct',icon:'🧱',title:'Estructura y extras',desc:'fieldset, legend, datalist y esqueleto completo.',steps:[
+ {t:'learn',title:'fieldset y legend',blocks:[
+  ['p','`<fieldset>` agrupa campos relacionados y `<legend>` le pone título. Ideal para grupos de radios o checkbox.'],
+  ['code',`<fieldset>
+  <legend>Tipo de acomodación *</legend>
+  <input type="radio" id="a5" name="est" value="5">
+  <label for="a5">5 estrellas</label>
+  <input type="radio" id="a4" name="est" value="4">
+  <label for="a4">4 estrellas</label>
+</fieldset>`,true],
+ ]},
+ {t:'learn',title:'datalist y otros extras',blocks:[
+  ['code',`<input list="paises" name="pais" placeholder="Escribe un país">
+<datalist id="paises">
+  <option value="Ecuador">
+  <option value="España">
+  <option value="Perú">
+</datalist>`,true],
+  ['table',[['datalist','Sugerencias mientras se escribe (se enlaza con el atributo `list` = `id`)'],['autocomplete','`on` / `off` en un campo o en todo el `<form>`'],['novalidate','En `<form>`: desactiva la validación del navegador'],['<br>','Salto de línea (elemento vacío)']]],
+ ]},
+ {t:'order',q:'🧩 Ordena el esqueleto de un formulario completo.',lines:[
+  '<form action="reservar.php" method="post">',
+  '  <label for="nombre">Nombre y apellido *</label>',
+  '  <input type="text" id="nombre" name="nombre" required>',
+  '  <button type="submit">Enviar</button>',
+  '  <button type="reset">Limpiar</button>',
+  '</form>']},
+ {t:'quiz',q:'¿Qué etiquetas usas para agrupar campos relacionados y darles un título?',options:['`<fieldset>` y `<legend>`','`<group>` y `<title>`','`<section>` y `<h1>`','`<form>` y `<label>`'],answer:0,why:'`<fieldset>` crea el grupo (con un recuadro) y `<legend>` es su título.'},
+ {t:'quiz',multi:true,q:'Selecciona **todas** las etiquetas que suelen ir dentro de un `<form>`:',options:['`<input>`','`<select>`','`<textarea>`','`<label>`','`<button>`','`<title>`','`<fieldset>`','`<head>`'],answer:[0,1,2,3,4,6],why:'`<title>` y `<head>` pertenecen a la cabecera del documento, no al formulario.'},
+ {t:'sort',q:'¿Lleva etiqueta de cierre o es un elemento vacío?',cats:['sin cierre','con cierre'],items:[['`<input>`',0],['`<br>`',0],['`<select>`',1],['`<textarea>`',1],['`<label>`',1],['`<option>` (en lista con texto)',1],['`<button>`',1]]},
+]},
+/* ---------- 9 ---------- */
+{id:'map',icon:'🗺️',title:'Aplícalo a la práctica',desc:'Elige el elemento adecuado para cada campo y crea tu mini formulario.',steps:[
+ {t:'learn',title:'Tu práctica: Reserva de Agencia de Viajes',blocks:[
+  ['p','Ya conoces todas las piezas. Ahora piensa en la práctica: un formulario de **reserva de viajes** con destino, fecha, número de adultos, edades, tipo de viaje, actividades, acomodación, servicios, comentarios y datos personales.'],
+  ['p','Antes de empezar a escribir, **decide qué elemento** necesita cada campo: ¿lista?, ¿radio?, ¿checkbox?, ¿texto largo? Es lo que vas a practicar en estas pantallas.'],
+  ['tip','Consejo: construye el formulario **por partes** y abre el navegador a menudo para ver cómo va quedando.'],
+ ]},
+ {t:'match',q:'Une cada campo de la práctica con el elemento HTML adecuado.',pairs:[['Destino (lista de ciudades)','`<select>`'],['Fecha de salida (dd/mm/aaaa)','`input type="date"`'],['Soy flexible con la fecha','`input type="checkbox"`'],['Tipo de acomodación (5, 4 o 3 estrellas)','`input type="radio"`'],['¿Cuál es el viaje que quisieras?','`<textarea>`'],['Email','`input type="email"`'],['Teléfono','`input type="tel"`'],['Enviar / limpiar','`submit` y `reset`']]},
+ {t:'quiz',multi:true,q:'En la práctica, ¿qué campos llevan asterisco (*) y por tanto son **obligatorios**?',options:['Destino','Fecha de salida','Número de adultos','Edad adultos','Tipo de acomodación','Nombre y apellido','Email','Teléfono','Ciudad','Estoy de acuerdo con los términos'],answer:[0,2,4,5,6,9],why:'Destino, Número de adultos, Tipo de acomodación, Nombre, Email y Términos llevan `required`.'},
+ {t:'bugs',q:'🔎 Un compañero empezó la práctica con **3 errores**. ¿Los encuentras?',lines:[
+  ['<form action="reserva.php" metod="post">','`metod` está mal escrito: debe ser `method`.'],
+  '  <label for="destino">Destino *</label>',
+  '  <select id="destino" name="destino" required>',
+  '    <option value="">Seleccionar ciudad</option>',
+  '  </select>',
+  '  <label for="fecha">Fecha de salida</label>',
+  ['  <input type="date" id="fecha">','Falta el atributo `name`: la fecha no se enviaría.'],
+  '  <input type="checkbox" id="flex" name="flexible">',
+  '  <label for="flex">Soy flexible con la fecha</label>',
+  '  <label for="nombre">Nombre y apellido *</label>',
+  ['  <input type="text" id="nom" name="nombre" required>','El `for` del label es “nombre” pero el `id` es “nom”: no están enlazados.'],
+  '  <input type="submit" value="Enviar">',
+  '</form>']},
+ {t:'lab',q:'🧪 **Laboratorio final:** escribe un mini formulario de reserva que cumpla todos los requisitos de la lista.'},
+]},
+/* ---------- 10 ---------- */
+{id:'blitz',icon:'⚡',title:'Reto relámpago',desc:'Preguntas rápidas de todo el temario. ¡Demuestra lo que sabes!',steps:[
+ {t:'quiz',q:'¿Qué etiqueta crea un campo de texto de **varias líneas**?',options:['`<textarea>`','`<input type="multiline">`','`<text>`','`<area>`'],answer:0,why:'`<textarea>` es el campo de texto largo.'},
+ {t:'quiz',q:'¿Qué atributo marca un radio o checkbox por defecto?',options:['`checked`','`selected`','`default`','`active`'],answer:0,why:'`checked` es para radio/checkbox; `selected` es para `<option>`.'},
+ {t:'quiz',q:'¿Qué atributo marca una `<option>` por defecto?',options:['`selected`','`checked`','`default`','`marked`'],answer:0,why:'`selected` es para opciones de un `<select>`.'},
+ {t:'quiz',fixed:true,q:'Un campo con el atributo `disabled`, ¿se envía con el formulario?',options:['Sí','No'],answer:1,why:'Los campos `disabled` no se envían nunca.'},
+ {t:'quiz',q:'¿Qué `type` permite **elegir un archivo** del ordenador?',options:['`file`','`upload`','`document`','`attach`'],answer:0,why:'`<input type="file">`.'},
+ {t:'quiz',q:'¿Qué `type` muestra un selector de color?',options:['`color`','`palette`','`paint`','`rgb`'],answer:0,why:'`<input type="color">`.'},
+ {t:'quiz',q:'¿Qué hace `autofocus`?',options:['Coloca el cursor en ese campo al cargar la página','Enfoca la imagen de fondo','Valida el campo','Oculta el campo'],answer:0,why:'Pone el foco en el campo automáticamente al abrir la página.'},
+ {t:'quiz',q:'¿Qué atributo de `<input>` muestra un texto gris de ejemplo que desaparece al escribir?',options:['`placeholder`','`value`','`title`','`alt`'],answer:0,why:'`placeholder` es una pista; `value` es un valor real.'},
+ {t:'quiz',q:'¿Qué elemento agrupa varios `<option>` bajo un título dentro de un select?',options:['`<optgroup>`','`<fieldset>`','`<group>`','`<legend>`'],answer:0,why:'`<optgroup label="…">`.'},
+ {t:'quiz',q:'¿Cuál de estos botones **no envía** el formulario?',options:['`<button type="button">`','`<button type="submit">`','`<input type="submit">`','`<button>` (sin type)'],answer:0,why:'`type="button"` no hace nada por sí mismo. El `<button>` sin `type` en un form actúa como submit.'},
+]},
+];
+
+const CHEAT=[
+ ['<form>',[['action="…"','URL que recibe los datos'],['method="get|post"','Cómo se envían'],['novalidate','Sin validación del navegador'],['autocomplete="on|off"','Sugerencias']]],
+ ['<label>',[['for="id"','Enlaza con el id de un campo'],['<label>…<input></label>','Alternativa: envolver el campo']]],
+ ['<input type="…">',[['text','Texto corto'],['email','Correo'],['tel','Teléfono'],['password','Contraseña'],['number','Número'],['date / time','Fecha / hora'],['color / range','Color / deslizador'],['url / search / file','Web / búsqueda / archivo'],['checkbox','Varias opciones'],['radio','Una opción (mismo name)'],['submit / reset / button','Botones'],['hidden','Dato oculto']]],
+ ['Atributos de campo',[['name','Nombre del dato enviado'],['id','Identificador único'],['value','Valor inicial / enviado'],['placeholder','Pista gris'],['required','Obligatorio'],['readonly','No editable (se envía)'],['disabled','Desactivado (no se envía)'],['autofocus','Foco al cargar'],['min / max / step','Rango y salto'],['minlength / maxlength','Longitud'],['pattern','Expresión regular'],['checked','Marcado (radio/checkbox)']]],
+ ['<select>',[['<select name id>','Lista desplegable'],['<option value>','Cada opción'],['selected','Opción por defecto'],['<optgroup label>','Grupo de opciones'],['multiple / size','Selección múltiple']]],
+ ['<textarea> y botones',[['<textarea rows cols>','Texto largo (con cierre)'],['<button type="submit">','Enviar'],['<button type="reset">','Limpiar'],['<input type="submit" value>','Enviar (input)']]],
+ ['Estructura',[['<fieldset>','Agrupa campos'],['<legend>','Título del grupo'],['<datalist id>','Sugerencias (input list=id)'],['<br>','Salto de línea']]],
+];
+
+/* ============ estado ============ */
+const KEY='formquest-v1';
+let save={best:{},name:''};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.best)save=s}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}}
+const qCount=L=>L.steps.filter(s=>s.t!=='learn').length;
+const levelMax=L=>10*qCount(L);
+const totalXP=()=>Object.values(save.best).reduce((a,b)=>a+(b||0),0);
+const starsFor=(pts,max)=>{const p=pts/max;return p>=.9?3:p>=.6?2:p>0?1:0};
+const starsHtml=n=>`<span class="stars">${'★'.repeat(n)}<span class="off">${'★'.repeat(3-n)}</span></span>`;
+function updXP(){$('#xp').textContent='⭐ '+totalXP()+' pts'}
+let cur={l:0,i:0,pts:0};
+
+/* ============ vistas ============ */
+const main=$('#main');
+function view(node){main.innerHTML='';main.append(node);window.scrollTo({top:0})}
+
+function renderHome(){
+  updXP();
+  const done=LEVELS.filter(L=>(save.best[L.id]||0)>0).length;
+  const hero=el('section',{class:'hero'},
+    el('h1',{},'✈️ Domina los formularios HTML'),
+    el('p',{},'Antes de hacer la práctica de la Agencia de Viajes, repasa todas las etiquetas y atributos de los formularios. Cada nivel tiene una mini-lección y retos: emparejar, completar código, ordenar líneas y cazar errores.'),
+    el('div',{class:'name'},
+      el('input',{id:'nm',placeholder:'Tu nombre (para el diploma)',value:save.name||'','aria-label':'Tu nombre',oninput:e=>{save.name=e.target.value;persist()}}),
+      el('button',{class:'btn primary',onclick:()=>{const next=LEVELS.findIndex(L=>!(save.best[L.id]>0));startLevel(next<0?0:next)}},done?'▶ Continuar':'▶ ¡Empezar!'))
+  );
+  const grid=el('div',{class:'grid'});
+  LEVELS.forEach((L,i)=>{
+    const b=save.best[L.id]||0,max=levelMax(L);
+    grid.append(el('button',{class:'lvl',onclick:()=>startLevel(i)},
+      el('span',{class:'ic'},L.icon),
+      el('span',{class:'num'},'Nivel '+(i+1)),
+      el('span',{class:'t'},L.title),
+      el('span',{class:'d'},L.desc),
+      el('span',{html:starsHtml(b?starsFor(b,max):0)+` <span class="muted" style="font-size:.85rem">${b}/${max} pts</span>`})
+    ));
+  });
+  const extra=el('div',{class:'row',style:'margin-top:20px'},
+    el('button',{class:'btn',onclick:renderCheat},'📖 Abrir la chuleta de etiquetas'),
+    el('button',{class:'btn',onclick:()=>{if(confirm('¿Borrar todo tu progreso?')){save.best={};persist();renderHome()}}},'🗑️ Reiniciar progreso'));
+  const wrap=el('div',{},hero,grid,extra);
+  if(done===LEVELS.length) wrap.append(diploma());
+  view(wrap);
+}
+
+function diploma(){
+  return el('div',{class:'diploma'},
+    el('div',{style:'font-size:3rem'},'🏆'),
+    el('h2',{},'Diploma de Formularios HTML'),
+    el('p',{},'Se concede a'),
+    el('div',{class:'nm'},save.name||'_______________'),
+    el('p',{},'por completar los '+LEVELS.length+' niveles con '+totalXP()+' puntos. ¡Ya estás listo para la práctica!'),
+    el('button',{class:'btn primary',onclick:()=>window.print()},'🖨️ Imprimir diploma'));
+}
+
+function renderCheat(){
+  const wrap=el('div',{},el('h1',{},'📖 Chuleta de formularios'),el('p',{class:'muted'},'Tenla a mano mientras haces la práctica.'));
+  const g=el('div',{class:'cheat'});
+  CHEAT.forEach(([t,rows])=>{
+    const tb=el('table',{class:'t'});
+    rows.forEach(([a,b])=>tb.append(el('tr',{},el('th',{},el('code',{},a)),el('td',{},b))));
+    g.append(el('div',{class:'card'},el('h3',{},t),tb));
+  });
+  wrap.append(g,el('div',{class:'row',style:'margin-top:18px'},el('button',{class:'btn primary',onclick:renderHome},'← Volver al inicio')));
+  view(wrap);
+}
+
+function startLevel(i){cur={l:i,i:0,pts:0};renderStep()}
+
+function renderStep(){
+  const L=LEVELS[cur.l],s=L.steps[cur.i];
+  const pct=Math.round(cur.i/L.steps.length*100);
+  const card=el('section',{class:'card'});
+  const body=el('div'),foot=el('div',{class:'foot'}),fbBox=el('div'),extra=el('span',{class:'row'}),prim=el('span');
+  foot.append(extra,prim);
+  card.append(
+    el('div',{class:'meta'},el('span',{},`${L.icon} Nivel ${cur.l+1} · ${L.title}`),el('span',{},`Pantalla ${cur.i+1} de ${L.steps.length} · ${cur.pts} pts`)),
+    el('div',{class:'prog'},el('i',{style:`width:${pct}%`})),
+    body,fbBox,foot);
+  const api={
+    body,
+    setBtn(label,fn,disabled){
+      prim.innerHTML='';
+      const b=el('button',{class:'btn primary',onclick:fn,disabled:!!disabled},label);prim.append(b);return b;
+    },
+    addBtn(label,fn){const b=el('button',{class:'btn',onclick:fn},label);extra.append(b);return b},
+    fb(kind,html){fbBox.innerHTML='';if(html)fbBox.append(el('div',{class:'fb '+kind,html}))},
+    award(p){cur.pts+=p},
+    complete(attempts,revealed){
+      cur.pts+=revealed?0:(attempts<=1?10:attempts===2?6:3);
+      $('.meta span:last-child',card).textContent=`Pantalla ${cur.i+1} de ${L.steps.length} · ${cur.pts} pts`;
+      extra.innerHTML='';
+      api.setBtn(cur.i===L.steps.length-1?'Ver resultado →':'Continuar →',nextStep);
+    }
+  };
+  view(card);
+  if(s.t!=='learn') body.append(el('span',{class:'kind'},KIND[s.t]));
+  R[s.t](s,api);
+}
+function nextStep(){cur.i++;cur.i>=LEVELS[cur.l].steps.length?finishLevel():renderStep()}
+const KIND={quiz:'Pregunta',match:'Emparejar',sort:'Clasificar',fill:'Completa el código',order:'Ordena el código',bugs:'Caza-errores',lab:'Laboratorio'};
+
+function finishLevel(){
+  const L=LEVELS[cur.l],max=levelMax(L),st=starsFor(cur.pts,max);
+  save.best[L.id]=Math.max(save.best[L.id]||0,cur.pts);persist();updXP();
+  if(st>=2)confetti();
+  const msg=st===3?'¡Perfecto! Dominas este tema.':st===2?'¡Muy bien! Repasa los fallos si quieres las 3 estrellas.':'Has avanzado, pero conviene repetir el nivel.';
+  const allDone=LEVELS.every(l=>save.best[l.id]>0);
+  const card=el('section',{class:'card res'},
+    el('div',{class:'big'},L.icon),
+    el('h2',{},`Nivel ${cur.l+1} completado`),
+    el('div',{html:starsHtml(st)}),
+    el('p',{},`${cur.pts} / ${max} puntos`),
+    el('p',{class:'muted'},msg),
+    el('div',{class:'row',style:'justify-content:center;margin-top:14px'},
+      el('button',{class:'btn',onclick:()=>startLevel(cur.l)},'↻ Repetir'),
+      el('button',{class:'btn',onclick:renderHome},'🏠 Inicio'),
+      cur.l<LEVELS.length-1?el('button',{class:'btn primary',onclick:()=>startLevel(cur.l+1)},'Siguiente nivel →'):null));
+  if(allDone){card.append(diploma());confetti(70)}
+  view(card);
+}
+
+/* ============ renderizadores de pantallas ============ */
+const R={};
+const K='ABCDEFGHIJ';
+
+R.learn=(s,api)=>{
+  const b=api.body;
+  b.append(el('span',{class:'kind'},'Aprende'),el('h2',{},s.title));
+  s.blocks.forEach(([k,a,c])=>{
+    if(k==='p')b.append(el('p',{html:md(a)}));
+    else if(k==='tip')b.append(el('div',{class:'tip',html:md(a)}));
+    else if(k==='table'){const t=el('table',{class:'t'});a.forEach(([x,y])=>t.append(el('tr',{},el('th',{},el('code',{},x)),el('td',{html:md(y)}))));b.append(t)}
+    else if(k==='code'){
+      if(c){
+        const demo=el('div',{class:'demo',html:c===true?a:c});
+        demo.addEventListener('submit',e=>{e.preventDefault();toast('✅ En la demo no se envía nada, pero la validación funciona')});
+        b.append(el('div',{class:'demo-wrap'},codeBlock(a),demo));
+      }else b.append(codeBlock(a));
+    }
+  });
+  api.setBtn(cur.i===LEVELS[cur.l].steps.length-1?'Ver resultado →':'Siguiente →',nextStep);
+};
+
+R.quiz=(s,api)=>{
+  const b=api.body;
+  b.append(el('h2',{html:md(s.q)}));
+  const order=s.fixed?s.options.map((_,i)=>i):shuffle(s.options.map((_,i)=>i));
+  const ans=new Set(s.multi?s.answer:[s.answer]);
+  const sel=new Set();let attempts=0,finished=false;
+  const box=el('div',{class:'opts'});b.append(box);
+  if(s.multi)b.append(el('p',{class:'muted',style:'margin:8px 0 0;font-size:.9rem'},'Puedes marcar varias respuestas.'));
+  const btns={};
+  order.forEach((oi,pos)=>{
+    const btn=el('button',{class:'opt',onclick:()=>{
+      if(finished)return;
+      btn.classList.remove('ko');
+      if(s.multi){sel.has(oi)?sel.delete(oi):sel.add(oi)}else{sel.clear();sel.add(oi)}
+      Object.entries(btns).forEach(([k,v])=>v.classList.toggle('sel',sel.has(+k)));
+      check.disabled=sel.size===0;
+    }},el('span',{class:'k'},K[pos]),el('span',{html:md(s.options[oi])}));
+    btns[oi]=btn;box.append(btn);
+  });
+  const check=api.setBtn('Comprobar',()=>{
+    attempts++;
+    const ok=sel.size===ans.size&&[...sel].every(x=>ans.has(x));
+    if(ok){
+      finished=true;
+      Object.values(btns).forEach(x=>{x.classList.remove('sel');x.classList.add('locked')});
+      ans.forEach(a=>btns[a].classList.add('ok'));
+      api.fb('ok','✅ <strong>¡Correcto!</strong> '+md(s.why));
+      api.complete(attempts,false);
+    }else if(attempts>=2){
+      finished=true;
+      Object.entries(btns).forEach(([k,x])=>{x.classList.remove('sel');x.classList.add('locked');if(ans.has(+k))x.classList.add('ok')});
+      api.fb('ko','❌ No era esa. La respuesta correcta está marcada en verde. '+md(s.why));
+      api.complete(attempts,true);
+    }else{
+      sel.forEach(x=>{btns[x].classList.remove('sel');btns[x].classList.add('ko')});sel.clear();
+      api.fb('ko','❌ Casi… inténtalo otra vez. '+(s.hint?'💡 '+md(s.hint):''));
+      check.disabled=true;
+    }
+  },true);
+};
+
+R.match=(s,api)=>{
+  const b=api.body;b.append(el('h2',{html:md(s.q)}),el('p',{class:'muted',style:'margin:0'},'Haz clic en un elemento de la izquierda y luego en su pareja de la derecha.'));
+  const L=el('div',{class:'col'}),Rt=el('div',{class:'col'});
+  b.append(el('div',{class:'cols'},L,Rt));
+  let selL=null,done=0,mistakes=0;const lb=[],rb=[];
+  s.pairs.forEach((p,i)=>{
+    const l=el('button',{class:'chip',html:md(p[0]),onclick:()=>{
+      if(l.classList.contains('ok'))return;
+      lb.forEach(x=>x.classList.remove('sel'));selL=i;l.classList.add('sel');
+    }});
+    lb.push(l);L.append(l);
+  });
+  shuffle(s.pairs.map((_,i)=>i)).forEach(i=>{
+    const r=el('button',{class:'chip',html:md(s.pairs[i][1]),onclick:()=>{
+      if(selL===null||r.classList.contains('ok'))return;
+      if(selL===i){
+        lb[i].classList.remove('sel');lb[i].classList.add('ok');r.classList.add('ok');selL=null;done++;
+        if(done===s.pairs.length){
+          api.fb('ok','✅ <strong>¡Todas las parejas correctas!</strong>'+(mistakes?` (${mistakes} fallo${mistakes>1?'s':''})`:''));
+          api.complete(mistakes===0?1:mistakes<=2?2:3,false);
+        }
+      }else{
+        mistakes++;r.classList.add('ko');lb[selL].classList.add('ko');
+        const a=lb[selL];setTimeout(()=>{r.classList.remove('ko');a.classList.remove('ko')},400);
+      }
+    }});
+    rb[i]=r;Rt.append(r);
+  });
+};
+
+R.sort=(s,api)=>{
+  const b=api.body;b.append(el('h2',{html:md(s.q)}));
+  let done=0,mistakes=0;
+  s.items.forEach(([txt,cat])=>{
+    const row=el('div',{class:'sortrow'},el('span',{html:md(txt)}));
+    s.cats.forEach((c,ci)=>row.append(el('button',{class:'btn small',onclick:()=>{
+      if(row.classList.contains('ok'))return;
+      if(ci===cat){
+        row.classList.add('ok');row.querySelectorAll('button').forEach(x=>x.disabled=true);
+        row.append(el('strong',{style:'grid-column:1/-1;color:var(--ok)'},'✔ '+s.cats[cat]));
+        if(++done===s.items.length){
+          api.fb('ok','✅ <strong>¡Todo clasificado!</strong>'+(mistakes?` (${mistakes} fallo${mistakes>1?'s':''})`:''));
+          api.complete(mistakes===0?1:mistakes<=2?2:3,false);
+        }
+      }else{mistakes++;row.classList.remove('ko');void row.offsetWidth;row.classList.add('ko')}
+    }},c)));
+    b.append(row);
+  });
+};
+
+R.fill=(s,api)=>{
+  const b=api.body;b.append(el('h2',{html:md(s.q)}));
+  const box=el('div',{class:'fill'});b.append(box);
+  const inputs={};let attempts=0,hinted=false;
+  s.tpl.split(/(\{\d+\})/).forEach(part=>{
+    const m=part.match(/^\{(\d+)\}$/);
+    if(!m){box.append(document.createTextNode(part));return}
+    const n=+m[1],w=Math.max(...s.answers[n].map(a=>a.length))+2;
+    const inp=el('input',{type:'text',size:w,autocomplete:'off',autocapitalize:'off',spellcheck:'false','aria-label':'Hueco '+(n+1)});
+    inp.addEventListener('input',()=>{(inputs[n]||[]).forEach(o=>{if(o!==inp)o.value=inp.value;o.classList.remove('ok','ko')});btn.disabled=Object.values(inputs).some(a=>!a[0].value.trim())});
+    (inputs[n]=inputs[n]||[]).push(inp);box.append(inp);
+  });
+  api.addBtn('💡 Pista',()=>{hinted=true;Object.entries(inputs).forEach(([n,a])=>a.forEach(i=>i.placeholder=s.answers[n][0][0]+'…'));api.fb('info','💡 Cada hueco empieza por la letra que ves en gris.')});
+  const btn=api.setBtn('Comprobar',()=>{
+    attempts++;let all=true;
+    Object.entries(inputs).forEach(([n,a])=>{
+      const ok=s.answers[n].includes(a[0].value.trim().toLowerCase());
+      a.forEach(i=>{i.classList.remove('ok','ko');void i.offsetWidth;i.classList.add(ok?'ok':'ko')});
+      if(!ok)all=false;
+    });
+    if(all){
+      api.fb('ok','✅ <strong>¡Perfecto!</strong> El código está completo.');
+      Object.values(inputs).flat().forEach(i=>i.disabled=true);
+      api.complete(attempts,false);
+    }else if(attempts>=3){
+      Object.entries(inputs).forEach(([n,a])=>a.forEach(i=>{i.value=s.answers[n][0];i.disabled=true;i.classList.remove('ko');i.classList.add('ok')}));
+      api.fb('ko','❌ Te enseño la solución para que la estudies. Fíjate bien en cada hueco.');
+      api.complete(attempts,true);
+    }else api.fb('ko','❌ Algún hueco no es correcto (en rojo). Revisa y vuelve a intentarlo. Intento '+attempts+' de 3.');
+  },true);
+};
+
+R.order=(s,api)=>{
+  const b=api.body;b.append(el('h2',{html:md(s.q)}),el('p',{class:'muted',style:'margin:0'},'Haz clic en las líneas para colocarlas en orden. Clic en una línea colocada para devolverla.'));
+  let pool=s.lines.map((t,i)=>i);
+  do{pool=shuffle(pool)}while(pool.every((v,i)=>v===i));
+  let placed=[],attempts=0,finished=false;
+  const zP=el('div',{class:'zone'}),zA=el('div',{class:'zone'});
+  b.append(el('div',{class:'ord'},zP,zA));
+  const draw=(marks)=>{
+    zP.innerHTML='';zA.innerHTML='';
+    zP.append(el('h4',{},'Líneas desordenadas'));zA.append(el('h4',{},'Tu formulario'));
+    pool.forEach(i=>zP.append(el('button',{class:'ln',onclick:()=>{if(finished)return;pool=pool.filter(x=>x!==i);placed.push(i);api.fb('');draw()}},s.lines[i])));
+    placed.forEach((i,pos)=>zA.append(el('button',{class:'ln'+(marks?(i===pos?' ok':' ko'):''),onclick:()=>{if(finished)return;placed=placed.filter(x=>x!==i);pool.push(i);api.fb('');draw()}},s.lines[i])));
+    btn.disabled=pool.length>0||finished;
+  };
+  const btn=api.setBtn('Comprobar',()=>{
+    attempts++;
+    const ok=placed.every((v,i)=>v===i);
+    if(ok){finished=true;draw(true);api.fb('ok','✅ <strong>¡Orden perfecto!</strong> Observa cómo cada etiqueta de apertura tiene su cierre y cómo se anidan.');api.complete(attempts,false)}
+    else if(attempts>=3){finished=true;placed=s.lines.map((_,i)=>i);pool=[];draw(true);api.fb('ko','❌ Esta es la solución correcta. Estúdiala: ¡la estructura importa!');api.complete(attempts,true)}
+    else{draw(true);api.fb('ko',`❌ Hay líneas fuera de sitio (en rojo). Haz clic en ellas para recolocarlas. Intento ${attempts} de 3.`)}
+  },true);
+  draw();
+};
+
+R.bugs=(s,api)=>{
+  const b=api.body;b.append(el('h2',{html:md(s.q)}),el('p',{class:'muted',style:'margin:0'},'Haz clic en cada línea que creas que tiene un error (otra vez para quitar la marca).'));
+  const lines=s.lines.map(l=>typeof l==='string'?{t:l,bug:null}:{t:l[0],bug:l[1]});
+  const total=lines.filter(l=>l.bug).length;
+  const sel=new Set();let attempts=0,finished=false;const box=el('div',{class:'bugs'});b.append(box);
+  const rows=lines.map((l,i)=>{
+    const r=el('button',{class:'bl',onclick:()=>{
+      if(finished)return;r.classList.remove('ko');sel.has(i)?sel.delete(i):sel.add(i);r.classList.toggle('sel',sel.has(i));btn.disabled=sel.size===0;
+    }},el('span',{class:'n'},String(i+1)),el('span',{html:highlight(l.t)}));
+    box.append(r);return r;
+  });
+  const explain=()=>'<ul>'+lines.map((l,i)=>l.bug?`<li><strong>Línea ${i+1}:</strong> ${md(l.bug)}</li>`:'').join('')+'</ul>';
+  const btn=api.setBtn('Comprobar',()=>{
+    attempts++;
+    const hits=lines.filter((l,i)=>l.bug&&sel.has(i)).length,wrong=[...sel].filter(i=>!lines[i].bug).length;
+    if(hits===total&&wrong===0){
+      finished=true;rows.forEach((r,i)=>{r.classList.remove('sel');if(lines[i].bug)r.classList.add('ok')});
+      api.fb('ok','✅ <strong>¡Todos los errores encontrados!</strong>'+explain());api.complete(attempts,false);
+    }else if(attempts>=3){
+      finished=true;rows.forEach((r,i)=>{r.classList.remove('sel');if(lines[i].bug)r.classList.add('ok');else if(sel.has(i))r.classList.add('ko')});
+      api.fb('ko','❌ Estos eran los errores:'+explain());api.complete(attempts,true);
+    }else{
+      rows.forEach((r,i)=>{if(sel.has(i)&&!lines[i].bug){r.classList.remove('sel');r.classList.add('ko');sel.delete(i)}});
+      api.fb('ko',`❌ Has encontrado ${hits} de ${total} errores y ${wrong} línea${wrong===1?'':'s'} marcada${wrong===1?'':'s'} estaba${wrong===1?'':'n'} bien (las quito). Sigue buscando. Intento ${attempts} de 3.`);
+    }
+  },true);
+};
+
+const LAB_CHECKS=[
+ ['`<form>` con `action` y `method="post"`',d=>{const f=d.querySelector('form');return !!f&&!!f.getAttribute('action')&&(f.getAttribute('method')||'').toLowerCase()==='post'}],
+ ['Un `<select>` con `name`, `required` y al menos 2 `<option>`',d=>{const s=d.querySelector('select[name]');return !!s&&s.hasAttribute('required')&&s.querySelectorAll('option').length>=2}],
+ ['Un `input type="date"` con `name`',d=>!!d.querySelector('input[type=date][name]')],
+ ['Un `input type="email"` con `name` y `required`',d=>!!d.querySelector('input[type=email][name][required]')],
+ ['Dos o más `input type="radio"` con el **mismo** `name`',d=>{const m={};d.querySelectorAll('input[type=radio][name]').forEach(r=>m[r.name]=(m[r.name]||0)+1);return Object.values(m).some(n=>n>=2)}],
+ ['Al menos un `input type="checkbox"` con `name`',d=>!!d.querySelector('input[type=checkbox][name]')],
+ ['Un `<textarea>` con `name`',d=>!!d.querySelector('textarea[name]')],
+ ['Todos los `<label>` tienen `for` que apunta a un `id` existente',d=>{const ls=[...d.querySelectorAll('label')];return ls.length>0&&ls.every(l=>l.getAttribute('for')&&d.getElementById(l.getAttribute('for')))}],
+ ['Un botón de enviar (`submit`) y otro de limpiar (`reset`)',d=>!!d.querySelector('[type=submit],button:not([type])')&&!!d.querySelector('[type=reset]')],
+];
+const LAB_START=`<form>
+  <!-- Escribe aquí tu formulario -->
+
+</form>`;
+const LAB_SOLUTION=`<form action="reservar.php" method="post">
+  <label for="destino">Destino *</label>
+  <select id="destino" name="destino" required>
+    <option value="">Seleccionar ciudad</option>
+    <option value="quito">Quito</option>
+    <option value="cuenca">Cuenca</option>
+  </select>
+  <br><br>
+
+  <label for="salida">Fecha de salida</label>
+  <input type="date" id="salida" name="salida">
+  <br>
+  <input type="checkbox" id="flex" name="flexible" value="si">
+  <label for="flex">Soy flexible con la fecha</label>
+  <br><br>
+
+  <fieldset>
+    <legend>Tipo de acomodación *</legend>
+    <input type="radio" id="e5" name="estrellas" value="5" required>
+    <label for="e5">5 estrellas</label>
+    <input type="radio" id="e4" name="estrellas" value="4">
+    <label for="e4">4 estrellas</label>
+    <input type="radio" id="e3" name="estrellas" value="3">
+    <label for="e3">3 estrellas</label>
+  </fieldset>
+  <br>
+
+  <label for="viaje">¿Cuál es el viaje que quisieras?</label><br>
+  <textarea id="viaje" name="viaje" rows="4" cols="40"></textarea>
+  <br><br>
+
+  <label for="email">Email *</label>
+  <input type="email" id="email" name="email" required>
+  <br><br>
+
+  <button type="submit">Enviar</button>
+  <button type="reset">limpiar</button>
+</form>`;
+
+R.lab=(s,api)=>{
+  const b=api.body;b.append(el('h2',{html:md(s.q)}));
+  const ta=el('textarea',{class:'ed',spellcheck:'false','aria-label':'Editor de código'});ta.value=LAB_START;
+  const pv=el('iframe',{class:'pv',sandbox:'',title:'Vista previa'});
+  const upd=()=>{pv.srcdoc=`<!doctype html><meta charset="utf-8"><body style="font-family:'Times New Roman',serif;padding:10px">${ta.value}`};
+  let t;ta.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(upd,250)});
+  ta.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const p=ta.selectionStart;ta.setRangeText('  ',p,ta.selectionEnd,'end')}});
+  b.append(el('div',{class:'lab'},ta,pv));
+  const list=el('ul',{class:'checks'});b.append(el('h3',{style:'margin-top:16px'},'Requisitos'),list);
+  const items=LAB_CHECKS.map(([txt])=>{const li=el('li',{},el('span',{},'⬜'),el('span',{html:md(txt)}));list.append(li);return li});
+  let best=0,extraAdded=false;
+  api.addBtn('👀 Ver solución de ejemplo',()=>{if(confirm('Esto reemplazará tu código por un ejemplo. ¿Seguro?')){ta.value=LAB_SOLUTION;upd()}});
+  const finish=()=>{api.complete(1,false);cur.pts-=10-Math.round(10*best/LAB_CHECKS.length);
+    // ajusta: puntos proporcionales a los requisitos cumplidos
+    $('.meta span:last-child').textContent=`Pantalla ${cur.i+1} de ${LEVELS[cur.l].steps.length} · ${cur.pts} pts`};
+  api.setBtn('Comprobar',()=>{
+    const d=new DOMParser().parseFromString(ta.value,'text/html');
+    let n=0;
+    LAB_CHECKS.forEach(([,fn],i)=>{let ok=false;try{ok=!!fn(d)}catch(e){}
+      items[i].className=ok?'ok':'ko';items[i].firstChild.textContent=ok?'✅':'❌';if(ok)n++});
+    best=Math.max(best,n);
+    if(n===LAB_CHECKS.length){api.fb('ok','🎉 <strong>¡Todos los requisitos cumplidos!</strong> Ya puedes afrontar la práctica completa.');confetti(50);finish()}
+    else{api.fb('info',`Llevas ${n} de ${LAB_CHECKS.length} requisitos. Corrige los marcados con ❌ y vuelve a comprobar.`);
+      if(!extraAdded){extraAdded=true;api.addBtn('Terminar así →',finish)}}
+  });
+  upd();
+};
+
+/* ============ arranque ============ */
+$('#goHome').onclick=$('#goHome2').onclick=renderHome;
+$('#goCheat').onclick=renderCheat;
+renderHome();
+</script>
+</body>
+</html>
